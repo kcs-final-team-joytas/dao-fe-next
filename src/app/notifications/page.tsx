@@ -48,10 +48,6 @@ export default function Notifications() {
   }, [cursor, hasNext, isFetching])
 
   useEffect(() => {
-    console.log(cursor)
-  }, [cursor])
-
-  useEffect(() => {
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const target = entries[0]
       if (target.isIntersecting && hasNext && !isFetching && cursor !== null) {
