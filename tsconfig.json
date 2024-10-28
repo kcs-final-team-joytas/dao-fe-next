@@ -23,10 +23,10 @@
       "@assets/*": ["./src/app/assets/*"],
       "@components/*": ["./src/app/components/*"],
       "@pages/*": ["./src/app/pages/*"],
-      "@hooks/*": ["./src/app/hooks/*"],
-      "@store/*": ["./src/app/store/*"],
-      "@utils/*": ["./src/app/utils/*"],
-      "@global/*": ["./src/app/global/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@store/*": ["./src/store/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@global/*": ["./src/global/*"],
       "@images/*": ["./src/app/assets/images/*"]
     }
   },
@@ -34,6 +34,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "*.tsx",
     ".next/types/**/*.ts",
     "tsconfig.d.ts"
   ],

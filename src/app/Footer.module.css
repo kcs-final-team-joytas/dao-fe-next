@@ -1,0 +1,45 @@
+.footerDiv {
+  box-sizing: border-box;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(23, 23, 23);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .footerDiv {
+    height: 60px;
+    width: 600px;
+  }
+}
+
+.iconDiv {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconImg {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.iconText {
+  margin-top: 8px;
+  color: white;
+  font-size: 10px;
+}
+
+@media (min-width: 600px) {
+  .iconText {
+    font-size: 13px;
+  }
+}
