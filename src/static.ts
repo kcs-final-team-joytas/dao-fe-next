@@ -1,5 +1,5 @@
 export const URL = {
-  main: '/main',
+  main: '/',
   notification: '/notification',
 
   // auth
@@ -30,9 +30,9 @@ export const URL = {
   myRoomObjet: '/myRoom/objets',
 }
 
-export const KAKAO_AUTH = process.env.VITE_KAKAO_AUTH
+export const KAKAO_AUTH = process.env.NEXT_PUBLIC_KAKAO_AUTH
 
-export const BACK_HOST = process.env.VITE_BACKHOST
+export const BACK_HOST = process.env.NEXT_PUBLIC_BACKHOST
 
 export const APIs = {
   uploadImage: `${BACK_HOST}/api/v1/uploads/images`,

@@ -1,0 +1,52 @@
+.globalContainer {
+  padding: 0;
+  height: 100%;
+}
+
+.bannerImage {
+  background-color: grey;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  object-fit: cover;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .bannerImage {
+    height: 280px;
+  }
+}
+
+.myObjetContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.myObjetTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 32px;
+  margin-top: 20px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.myObjetTitle img {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+}
+
+@media (min-width: 600px) {
+  .myObjetTitle {
+    font-size: 20px;
+  }
+}
+
+.lottieContainer {
+  margin-top: 70px;
+}

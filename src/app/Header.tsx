@@ -2,33 +2,26 @@
 
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import rocket from '@assets/lotties/rocket.json'
-import logo from '@assets/images/DAO.webp'
 import bell from '@assets/images/bell.webp'
-import { URL } from '@/app/static'
+import { URL } from '@/static'
 // import Menu from './Menu'
 import { Squash as Hamburger } from 'hamburger-react'
-import Lottie from 'lottie-react'
 import styles from './Header.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
-
+  const RocketLottie = dynamic(
+    () => import('@/components/lotties/RocketLottie'),
+    { ssr: false }
+  )
   return (
     <>
       <div className={styles.headerContainer}>
-        <Link href={URL.main} className={styles.logoWrapper}>
-          <Lottie
-            animationData={rocket}
-            loop={true}
-            autoplay={true}
-            style={{ width: 40, height: 40 }}
-          />
-          <Image alt='' src={logo} className={styles.logoImage} />
-        </Link>
+        <RocketLottie />
         <div className={styles.headerRight}>
           {!pathname.includes('notification') && (
             <Link href={URL.notification} className={styles.icon}>

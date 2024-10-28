@@ -1,0 +1,155 @@
+.objetPreviewContainer {
+  width: 100%;
+  padding: 0 32px 60px;
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  .objetPreviewContainer {
+    padding: 0 32px;
+  }
+}
+
+.iconContainer {
+  width: 80px;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.iconContainer.right {
+  right: 20px;
+  background: linear-gradient(90deg, transparent, black);
+  justify-content: end;
+}
+
+.iconContainer.left {
+  left: 20px;
+  background: linear-gradient(270deg, transparent, black);
+  justify-content: start;
+}
+
+.moveIcon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.moveIcon:hover {
+  opacity: 0.5;
+}
+
+.objetList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 600px) {
+  .objetList {
+    flex-direction: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  .objetList::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.objetContainer {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
+}
+
+.objetContainer:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 600px) {
+  .objetContainer {
+    width: 170px;
+    flex-direction: column;
+    height: 290px;
+  }
+}
+
+.objetImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: black;
+  align-self: center;
+}
+
+@media (min-width: 600px) {
+  .objetImage {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.objetContent {
+  display: flex;
+  flex: 1;
+  font-size: 13px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+@media (min-width: 600px) {
+  .objetContent {
+    font-size: 15px;
+  }
+}
+
+.objetTitle {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (min-width: 600px) {
+  .objetTitle {
+    font-size: 15px;
+  }
+}
+
+.objetDescription {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 9px;
+}
+
+@media (min-width: 600px) {
+  .objetDescription {
+    font-size: 12px;
+  }
+}
+
+.communityBtn {
+  width: 120px;
+  height: 40px;
+  background-color: #d9d9d9;
+  border: 0;
+  border-radius: 10px;
+}
+
+.communityBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.5);
+}

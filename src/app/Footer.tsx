@@ -1,6 +1,6 @@
 'use client'
 
-import { URL } from '@/app/static'
+import { URL } from '@/static'
 import useUserStore from '@store/userStore'
 import { HomeOutlined, TeamOutlined } from '@ant-design/icons'
 import lounge from '@images/footer/lounge.webp'

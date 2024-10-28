@@ -1,6 +1,6 @@
 import backImage from '@images/back.webp'
 import styles from './BackHeader.module.css'
-import { URL } from '@/app/static'
+import { URL } from '@/static'
 import Link from 'next/link'
 import Image from 'next/image'
 
