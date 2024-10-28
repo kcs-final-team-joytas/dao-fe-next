@@ -1,0 +1,51 @@
+.container {
+  padding: 20px 32px 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.content {
+  color: white;
+  height: fit-content;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.subTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e8e8e8;
+  margin-bottom: 10px;
+}
+
+.text {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.list {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.listItem {
+  margin-bottom: 8px;
+  color: #e0e0e0;
+  font-size: 15px;
+  list-style-type: disc;
+}
