@@ -11,35 +11,35 @@ export default function Terms() {
           <div className={styles.section}>
             <h2 className={styles.subTitle}>제1조 목적</h2>
             <p className={styles.text}>
-              본 약관은 다오(DAO)(이하 "회사")가 제공하는 메타버스 공간 및
-              오브제 작성 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자
-              간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정하는 것을
-              목적으로 합니다.
+              본 약관은 다오(DAO)(이하 &quot;회사&quot;)가 제공하는 메타버스
+              공간 및 오브제 작성 서비스(이하 &quot;서비스&quot;)의 이용과
+              관련하여 회사와 이용자 간의 권리, 의무 및 책임사항, 기타 필요한
+              사항을 규정하는 것을 목적으로 합니다.
             </p>
           </div>
 
           <div className={styles.section}>
             <h2 className={styles.subTitle}>제2조 정의</h2>
             <p className={styles.text}>
-              1. "서비스"란 타인이 작성한 자신에 대한 오브제를 조회하고,
-              라운지에서 여러 유저들과 소통하며 오브제를 공유할 수 있는 메타버스
+              1. &quot;서비스&quot;란 타인이 작성한 자신에 대한 오브제를
+              조회하고, 라운지에서 여러 유저들과 소통하며 오브제를 공유할 수
+              있는 메타버스 공간을 말합니다.
+            </p>
+            <p className={styles.text}>
+              2. &quot;이용자&quot;란 본 약관에 따라 회사가 제공하는 서비스를
+              이용하는 자를 말합니다.
+            </p>
+            <p className={styles.text}>
+              3. &quot;오브제&quot;란 이용자가 작성한 콘텐츠로, 다른 이용자들이
+              조회하고 피드백을 남길 수 있는 요소를 말합니다.
+            </p>
+            <p className={styles.text}>
+              4. &quot;라운지&quot;란 이용자들이 모여 오브제를 공유하고 소통할
+              수 있는 가상공간을 말합니다.
+            </p>
+            <p className={styles.text}>
+              5. &quot;마이룸&quot;이란 이용자가 개인적으로 사용할 수 있는
               공간을 말합니다.
-            </p>
-            <p className={styles.text}>
-              2. "이용자"란 본 약관에 따라 회사가 제공하는 서비스를 이용하는
-              자를 말합니다.
-            </p>
-            <p className={styles.text}>
-              3. "오브제"란 이용자가 작성한 콘텐츠로, 다른 이용자들이 조회하고
-              피드백을 남길 수 있는 요소를 말합니다.
-            </p>
-            <p className={styles.text}>
-              4. "라운지"란 이용자들이 모여 오브제를 공유하고 소통할 수 있는
-              가상공간을 말합니다.
-            </p>
-            <p className={styles.text}>
-              5. "마이룸"이란 이용자가 개인적으로 사용할 수 있는 공간을
-              말합니다.
             </p>
           </div>
 

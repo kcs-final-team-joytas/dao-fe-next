@@ -1,6 +1,6 @@
 import styles from './page.module.css'
 import Link from 'next/link'
-import { URL } from '../static'
+import { URL } from '../../static'
 import Image from 'next/image'
 import logo from '@images/DAO.webp'
 import card1 from '@images/card1.png'
@@ -26,13 +26,14 @@ export default function Login() {
         <div className={styles.logo}>
           <Image
             src={logo}
+            priority
             alt='logo'
             style={{ width: '300px', height: '100px' }}
           />
           <div className={styles.mini}>"Digital Archive of Our Memories"</div>
         </div>
         <Link
-          href={process.env.NEXT_KAKAO_AUTH ?? ''}
+          href={process.env.NEXT_PUBLIC_KAKAO_AUTH ?? ''}
           className={styles.loginButton}
         >
           카카오 로그인
