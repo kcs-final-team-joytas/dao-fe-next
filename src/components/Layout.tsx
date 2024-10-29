@@ -1,5 +1,7 @@
+import dynamic from 'next/dynamic'
 import Header from '@/app/Header'
 import Footer from '@/app/Footer'
+import ClientEventSource from '@/utils/clientEvent'
 
 export default function Layout({
   children,
@@ -8,6 +10,7 @@ export default function Layout({
 }>) {
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      <ClientEventSource />
       <Header />
       {children}
       <Footer />

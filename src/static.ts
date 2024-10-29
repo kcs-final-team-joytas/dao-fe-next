@@ -1,6 +1,6 @@
 export const URL = {
   main: '/',
-  notification: '/notification',
+  notification: '/notifications',
 
   // auth
   login: '/login',

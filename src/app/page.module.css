@@ -1,20 +1,17 @@
 .globalContainer {
+  width: 100%;
   padding: 0;
   height: 100%;
 }
 
-.bannerImage {
-  background-color: grey;
-  height: fit-content;
+.carouselContainer {
   width: 100%;
-  display: flex;
-  object-fit: cover;
-  align-items: center;
-  justify-content: center;
+  aspect-ratio: 0.5625;
+  max-height: 280px;
 }
 
 @media (min-width: 600px) {
-  .bannerImage {
+  .carouselContainer {
     height: 280px;
   }
 }

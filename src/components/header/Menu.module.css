@@ -1,0 +1,74 @@
+.menuContainer {
+  height: 100vh;
+  width: 600px;
+  box-sizing: border-box;
+  position: absolute;
+
+  color: #6d6d6d;
+  z-index: 1000;
+  background-color: black;
+}
+
+.topContainer {
+  display: flex;
+  box-sizing: border-box;
+  padding: 50px 32px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeButton {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.profile {
+  width: 44px;
+  object-fit: cover;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.nickname {
+  width: fit-content;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.categoryList {
+  display: flex;
+  padding: 0 32px;
+  margin-top: 50px;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.category {
+  font-size: 17px;
+  cursor: pointer;
+  color: #6d6d6d;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+}
+
+.category:hover {
+  color: white;
+}
+
+.buttonContainer {
+  padding: 16px 16px 0;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,17 @@
+.bannerImage {
+  background-color: grey;
+  height: fit-content;
+  width: 100%;
+  height: 100%;
+  max-height: 280px;
+  display: flex;
+  object-fit: cover;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 600px) {
+  .bannerImage {
+    height: 280px;
+  }
+}

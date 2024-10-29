@@ -20,25 +20,27 @@ export default function RecentObjets() {
   const userId = useUserStore((state) => state.userId)
 
   useEffect(() => {
-    const fetchObjetPreviews = async () => {
-      try {
-        const response = await fetch(APIs.objetPreview, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-          credentials: 'include',
-        })
-        const data = await response.json()
-        setObjets(data.data || [])
-      } catch (error) {
-        console.error('Failed to fetch objets', error)
-        setError(true)
-      } finally {
-        setIsLoading(false)
+    if (userId) {
+      const fetchObjetPreviews = async () => {
+        try {
+          const response = await fetch(APIs.objetPreview, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
+            credentials: 'include',
+          })
+          const data = await response.json()
+          setObjets(data.data || [])
+        } catch (error) {
+          console.error('Failed to fetch objets', error)
+          setError(true)
+        } finally {
+          setIsLoading(false)
+        }
       }
-    }
 
-    fetchObjetPreviews()
+      fetchObjetPreviews()
+    }
   }, [userId])
 
   if (isLoading) {

@@ -27,6 +27,7 @@
       "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils/*"],
       "@global/*": ["./src/global/*"],
+      "@types/*": ["./src/types/*"],
       "@images/*": ["./src/app/assets/images/*"]
     }
   },
@@ -35,6 +36,7 @@
     "**/*.ts",
     "**/*.tsx",
     "*.tsx",
+    "*.ts",
     ".next/types/**/*.ts",
     "tsconfig.d.ts"
   ],
