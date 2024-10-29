@@ -1,0 +1,26 @@
+.notificationGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.notificationDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95px;
+  height: 27px;
+  background-color: #423e3e;
+  border-radius: 30px;
+  box-sizing: border-box;
+  align-self: center;
+  font-size: 15px;
+  color: #d9d9d9;
+  word-spacing: -0.2px;
+  margin: 10px 0;
+}
+
+.customHr {
+  border: 0.05px solid #666666;
+  margin: 5px auto;
+  width: 95%;
+}

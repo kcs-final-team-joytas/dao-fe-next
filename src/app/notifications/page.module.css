@@ -1,0 +1,73 @@
+.notificationContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  overflow-y: auto;
+  box-sizing: border-box;
+  margin-top: 20px;
+  padding: 0 16px 80px;
+}
+
+.notificationItemContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 15px 0;
+  cursor: pointer;
+}
+
+.notificationItemContainer.read {
+  opacity: 0.5;
+}
+
+.notificationItemContainer:hover {
+  background-color: #2d2d2d;
+  border-radius: 15px;
+}
+
+.typeImg {
+  width: 25px;
+  height: 25px;
+}
+
+.blacnkContainerText {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  color: #6a6a6a;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.globalTitle {
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+
+  > img {
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.topContainer {
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  color: white;
+}
