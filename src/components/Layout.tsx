@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import Header from '@/app/Header'
 import Footer from '@/app/Footer'
 import ClientEventSource from '@/utils/clientEvent'
@@ -9,7 +8,7 @@ export default function Layout({
   children: React.ReactNode
 }>) {
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: '100%', height: 'calc(100% - 50px)' }}>
       <ClientEventSource />
       <Header />
       {children}
