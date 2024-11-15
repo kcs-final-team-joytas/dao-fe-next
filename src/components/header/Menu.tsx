@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import { InquiryModal } from '@components/modal/Modal'
 import { validateEmail } from '@utils/validation'
+import Image from 'next/image'
 
 const logoutRequest = async () => {
   const response = await fetch(APIs.logout, {
@@ -104,7 +105,13 @@ export default function Menu() {
       <div className={styles.menuContainer}>
         <div className={styles.topContainer}>
           <div className={styles.profileContainer}>
-            <img src={profileImage} className={styles.profile} alt='Profile' />
+            <Image
+              width={44}
+              height={44}
+              src={profileImage}
+              className={styles.profile}
+              alt='Profile'
+            />
             <div className={styles.nickname}>{name}</div>
           </div>
         </div>

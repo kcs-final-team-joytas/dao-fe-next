@@ -9,11 +9,10 @@ import styles from './Footer.module.css'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import profile from '@images/profile.webp'
 
 export default function Footer() {
   const pathname = usePathname()
-  // const profileImage = useUserStore((state) => state.profileImage)
+  const profileImage = useUserStore((state) => state.profileImage)
 
   return (
     <div className={styles.footerDiv}>
@@ -70,10 +69,9 @@ export default function Footer() {
         </div>
       </Link>
       <Link className={styles.iconDiv} href={URL.myRoom}>
-        <Image
-          loading='lazy'
+        <img
+          src={profileImage}
           alt='마이룸'
-          src={profile}
           className={styles.iconImg}
           style={{
             border: pathname.includes('myRoom') ? '1px solid white' : 'none',
