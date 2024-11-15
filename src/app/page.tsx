@@ -5,6 +5,20 @@ import Image from 'next/image'
 import PreparingComponent from '@/components/main/PreparingComponent'
 import RecentObjets from '@/components/objets/RecentObjets'
 import CarouselComponent from '@/components/main/Carousel'
+import React from 'react'
+
+const Recent = React.memo(() => {
+  return (
+    <div className={styles.myObjetContainer}>
+      <div className={styles.myObjetTitle}>
+        <Image src={recentObjetsIcon} alt='recentObjetsIcon' />
+        최근 오브제를 확인해보세요!
+      </div>
+      <RecentObjets />
+      <PreparingComponent />
+    </div>
+  )
+})
 
 export default function Home() {
   return (
@@ -13,14 +27,7 @@ export default function Home() {
         <div className={styles.carouselContainer}>
           <CarouselComponent />
         </div>
-        <div className={styles.myObjetContainer}>
-          <div className={styles.myObjetTitle}>
-            <Image src={recentObjetsIcon} alt='recentObjetsIcon' />
-            최근 오브제를 확인해보세요!
-          </div>
-          <RecentObjets />
-          <PreparingComponent />
-        </div>
+        <Recent />
       </div>
     </Layout>
   )
