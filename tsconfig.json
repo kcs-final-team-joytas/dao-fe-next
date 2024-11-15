@@ -38,7 +38,8 @@
     "*.tsx",
     "*.ts",
     ".next/types/**/*.ts",
-    "tsconfig.d.ts"
+    "tsconfig.d.ts",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }
