@@ -1,0 +1,41 @@
+.objetModel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  width: 100%;
+  border-radius: 10px;
+  height: 240px;
+}
+
+.modelIndexText {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 50px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chooseContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+  height: 40px;
+  margin: 40px auto 60px;
+  width: 100%;
+}
+
+.moveIcon {
+  cursor: pointer;
+  width: 25px;
+}
+
+.chooseButton {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+}
