@@ -1,9 +1,10 @@
 .menuContainer {
   width: 600px;
-  height: calc(100% - 50px);
+  height: calc(100%);
   box-sizing: border-box;
   position: absolute;
   left: 50%;
+  top: 0px;
   transform: translateX(-50%);
   z-index: 1000;
   color: #6d6d6d;
