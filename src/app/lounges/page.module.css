@@ -1,0 +1,48 @@
+.globalContainer32 {
+  width: 100%;
+  height: 100%;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.globalTitle {
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.globalTitle img {
+  width: 25px;
+  height: 25px;
+  margin-right: 20px;
+}
+
+.globalTitle img:hover {
+  cursor: pointer;
+}
+
+.globalSubTitle {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.globalBlankContainerText {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6a6a6a;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.globalWidth {
+  width: 100%;
+  aspect-ratio: 0.7;
+}
