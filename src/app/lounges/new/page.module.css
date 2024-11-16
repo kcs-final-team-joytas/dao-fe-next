@@ -1,0 +1,117 @@
+.globalContainer32 {
+  width: 100%;
+  height: 100%;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.globalTitle {
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.globalSubTitle {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: semi-bold;
+}
+
+.container {
+  width: 100%;
+  margin-top: 50px;
+  box-sizing: border-box;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputTitle {
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  color: white;
+}
+
+.inputContainer {
+  display: flex;
+  width: 350px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.input {
+  width: 200px;
+  background-color: transparent;
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: 1px solid gray;
+}
+
+.input::placeholder {
+  font-size: 15px;
+}
+
+.input:read-only {
+  font-size: 15px;
+  color: gray;
+}
+
+.input:read-only:focus {
+  outline: none;
+}
+
+.inputInnerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.redText {
+  height: 20px;
+  margin-top: 10px;
+  color: #d41313;
+  font-size: 13px;
+}
+
+.loungeModel {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  height: 240px;
+}
+
+.modelIndexText {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chooseContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  gap: 20px;
+  height: 40px;
+  margin: 30px auto;
+  padding-bottom: 80px;
+}
+
+.chooseButton {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}

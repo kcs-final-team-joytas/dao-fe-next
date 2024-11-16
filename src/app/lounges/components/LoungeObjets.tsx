@@ -2,13 +2,17 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { FlyControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useRef, useEffect, useCallback } from 'react'
-import NoDataLottie from '@components/lotties/NoDataLottie'
 import styles from './LoungeObjets.module.css'
 import { useRouter } from 'next/navigation'
 import { URL } from '@/static'
 import type { ObjetsProps, Objet } from '@/types/modelType'
 import ObjetModels from '@components/models/ObjetModels'
 import { toast } from 'react-toastify'
+import dynamic from 'next/dynamic'
+
+const NoDataLottie = dynamic(() => import('@components/lotties/NoDataLottie'), {
+  ssr: false,
+})
 
 function LoungeCanvas({ objets }: { objets?: Objet[] }) {
   const router = useRouter()

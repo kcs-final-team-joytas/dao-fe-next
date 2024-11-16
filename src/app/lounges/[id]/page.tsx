@@ -8,7 +8,7 @@ import menu from '@images/menu.webp'
 import LoungeObjets from '../components/LoungeObjets'
 import { useRouter } from 'next/navigation'
 import { APIs, URL } from '@/static'
-import LoadingLottie from '@components/lotties/LoadingLottie'
+import dynamic from 'next/dynamic'
 import { LoungeDrop } from '../components/LoungeDrop'
 import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
@@ -16,6 +16,11 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import MobileLoungeObjets from '../components/MobileLoungeObjets'
 import { DeleteLoungeModal, WithDrawLoungeModal } from '@components/modal/Modal'
 import Image from 'next/image'
+
+const LoadingLottie = dynamic(
+  () => import('@components/lotties/LoadingLottie'),
+  { ssr: false }
+)
 
 interface LayoutProps {
   params: { id: string }
