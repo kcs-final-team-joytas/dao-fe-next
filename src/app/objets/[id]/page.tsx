@@ -93,6 +93,7 @@ export default function Page({ params }: LayoutProps) {
       <div className={styles.detailContainer}>
         {objetData?.objet_image ? (
           <img
+            loading='eager'
             className={styles.objetImg}
             src={objetData?.objet_image || ''}
             alt='Objet Image'
@@ -100,12 +101,9 @@ export default function Page({ params }: LayoutProps) {
         ) : (
           <div className={styles.cls}></div>
         )}
-
         <div className={styles.objetDescription}>{objetData?.description}</div>
       </div>
-
       <div className={styles.divider} />
-
       <div className={styles.chatPreviewContainer}>
         <div className={styles.chatHeader}>채팅 미리보기</div>
         {chatData && chatData.length > 0 ? (

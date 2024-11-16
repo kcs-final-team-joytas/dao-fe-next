@@ -12,6 +12,7 @@ import Image from 'next/image'
 import leaveImage from '@images/leave.webp'
 import { ObjetContext } from '@/types/objetContext'
 import { DeleteObjetModal } from '@/components/modal/Modal'
+import { ObjetDrop } from './components/ObjetDrop'
 
 export interface Objet {
   objet_id: number
@@ -185,15 +186,16 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
                   onClick={() => setIsDropVisible(!isDropVisible)}
                 />
                 {isDropVisible && (
-                  <div ref={dropRef} className={styles.dropdown}>
-                    <button
-                      onClick={() => {
+                  <div ref={dropRef} onClick={(e) => e.stopPropagation()}>
+                    <ObjetDrop
+                      onClickUpdate={() =>
+                        router.push(`${URL.objet}/${id}/update`)
+                      }
+                      onClickDelete={() => {
                         setIsDeleteModalVisible(true)
                         setIsDropVisible(false)
                       }}
-                    >
-                      삭제
-                    </button>
+                    />
                   </div>
                 )}
               </>
