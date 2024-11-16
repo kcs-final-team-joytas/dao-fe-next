@@ -1,0 +1,36 @@
+.noDataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  height: fit-content;
+}
+
+.innerText {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.goObjetButton {
+  width: 150px;
+  margin-top: 30px;
+  height: 40px;
+  padding: 5px 8px;
+  background-color: black;
+  opacity: 0.5;
+  color: white;
+  border-radius: 10px;
+  border: 1px dotted white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.goObjetButton:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+}

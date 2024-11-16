@@ -1,0 +1,108 @@
+.cardList {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.cardContainer {
+  margin-bottom: 40px;
+  width: 100%;
+  height: fit-content;
+  color: black;
+  cursor: pointer;
+}
+
+.line {
+  margin-top: 30px;
+  width: 100%;
+  height: 0.5px;
+  background-color: #272727;
+}
+
+.user {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.user img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.user div {
+  font-size: 17px;
+  color: #dedede;
+}
+
+.topContainer {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.topContainer div {
+  width: fit-content;
+  font-size: 11px;
+  color: #dedede;
+}
+
+.objetContainer {
+  width: 100%;
+  height: fit-content;
+}
+
+.objetContainer img {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.objetContainer div {
+  margin-top: 20px;
+  color: #dedede;
+  font-size: 16px;
+}
+
+.noDataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  height: fit-content;
+}
+
+.innerText {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.goObjetButton {
+  width: 150px;
+  margin-top: 30px;
+  height: 40px;
+  padding: 5px 8px;
+  background-color: black;
+  opacity: 0.5;
+  color: white;
+  border-radius: 10px;
+  border: 1px dotted white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.goObjetButton:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+}
