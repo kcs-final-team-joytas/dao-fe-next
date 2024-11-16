@@ -1,0 +1,54 @@
+.topContainer {
+  padding-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.iconContainer {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon {
+  width: 5px;
+  height: 20px;
+  opacity: 70%;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 100%;
+}
+
+.loungeTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.objets {
+  display: flex;
+  margin-top: 30px;
+  width: 100%;
+  height: calc(100% - 150px);
+  align-items: center;
+}
+
+.globalTitle {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.globalContainer32 {
+  width: 100%;
+  aspect-ratio: 0.5;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
