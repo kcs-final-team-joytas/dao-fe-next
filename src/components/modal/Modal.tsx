@@ -66,6 +66,93 @@ export function DeleteObjetModal({
   )
 }
 
+export function DeleteLoungeModal({
+  isOpen,
+  isClick,
+  onClose,
+  handleDelete,
+}: DeleteProps) {
+  return (
+    <Modal
+      title='정말 삭제하시겠습니까?'
+      open={isOpen}
+      onOk={handleDelete}
+      onCancel={onClose}
+      confirmLoading={isClick}
+      footer={[
+        <Button key='back' onClick={onClose}>
+          취소
+        </Button>,
+        <Button key='delete' disabled={isClick} onClick={handleDelete}>
+          삭제
+        </Button>,
+      ]}
+    >
+      <span>한 번 삭제한 라운지는 복구할 수 없습니다.</span>
+    </Modal>
+  )
+}
+
+export function WithDrawLoungeModal({
+  isOpen,
+  isClick,
+  onClose,
+  handleDelete,
+}: DeleteProps) {
+  return (
+    <Modal
+      title='정말 탈퇴하시겠습니까?'
+      open={isOpen}
+      onOk={handleDelete}
+      onCancel={onClose}
+      confirmLoading={isClick}
+      footer={[
+        <Button key='back' onClick={onClose}>
+          취소
+        </Button>,
+        <Button key='delete' disabled={isClick} onClick={handleDelete}>
+          탈퇴
+        </Button>,
+      ]}
+    >
+      <span>탈퇴한 라운지에 초대시 재가입이 가능합니다.</span>
+    </Modal>
+  )
+}
+
+export function DeleteUserModal({
+  isOpen,
+  isClick,
+  onClose,
+  handleDelete,
+}: DeleteProps) {
+  return (
+    <Modal
+      title='정말 탈퇴하시겠습니까?'
+      open={isOpen}
+      onOk={handleDelete}
+      onCancel={onClose}
+      confirmLoading={isClick}
+      footer={[
+        <Button key='back' onClick={onClose}>
+          취소
+        </Button>,
+        <Button key='delete' disabled={isClick} onClick={handleDelete}>
+          확인
+        </Button>,
+      ]}
+    >
+      <span>
+        회원이 작성한 컨텐츠는 자동적으로 삭제되지 않으며, 만일 삭제를 원하시면
+        탈퇴 이전에 삭제가 필요합니다.
+        <br />
+        <br />
+        회원탈퇴를 하시면 위 내용에 동의하는 것으로 간주됩니다.
+      </span>
+    </Modal>
+  )
+}
+
 export function LoungeListModal({
   onClose,
   handleSelectLounge,
