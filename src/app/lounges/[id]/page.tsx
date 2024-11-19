@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Layout from '@components/Layout'
 import styles from './page.module.css'
 import { Skeleton } from 'antd'

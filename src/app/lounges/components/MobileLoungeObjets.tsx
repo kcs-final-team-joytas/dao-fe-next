@@ -3,8 +3,12 @@ import styles from './MobileLoungeObjets.module.css'
 import { useRouter } from 'next/navigation'
 import { URL } from '@/static'
 import { extractYearMonthDate2 } from '@/utils/formatDatetime'
-import NoDataLottie from '@components/lotties/NoDataLottie'
 import { toast } from 'react-toastify'
+import dynamic from 'next/dynamic'
+
+const NoDataLottie = dynamic(() => import('@components/lotties/NoDataLottie'), {
+  ssr: false,
+})
 
 export default function MobileLoungeObjets({
   objets,
