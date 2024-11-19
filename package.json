@@ -12,6 +12,7 @@
     "@react-three/drei": "^9.116.3",
     "@react-three/fiber": "^8.17.10",
     "@stomp/stompjs": "^7.0.0",
+    "@types/socket.io-client": "^1.4.36",
     "@uidotdev/usehooks": "^2.4.1",
     "antd": "^5.21.6",
     "event-source-polyfill": "^1.0.31",
@@ -22,6 +23,7 @@
     "react-dom": "^18.3.1",
     "react-query": "^3.39.3",
     "react-toastify": "^10.0.6",
+    "socket.io-client": "^4.8.1",
     "three": "^0.170.0",
     "zustand": "^5.0.0"
   },
