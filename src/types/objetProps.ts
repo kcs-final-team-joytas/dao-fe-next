@@ -8,6 +8,7 @@ export interface ObjetInfoFormProps {
     sharers: SharedMembersProps[]
     objet_image: string
   }
+  updateObjetId?: string
 }
 
 export interface SharedMembersProps {
