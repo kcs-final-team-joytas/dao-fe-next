@@ -41,6 +41,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
   const path = usePathname()
   const isObjetDetail = path.includes('objet')
   const isChatting = path.includes('chatting')
+  const isUpdate = path.includes('update')
 
   const [isDropVisible, setIsDropVisible] = useState(false)
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
@@ -155,6 +156,10 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
   if (isLoading) {
     return null
+  }
+
+  if (isUpdate) {
+    return <Layout>{children}</Layout>
   }
 
   return (

@@ -28,6 +28,7 @@ export default function ObjetInfoForm({
   path,
   type,
   objetInfo,
+  updateObjetId,
 }: ObjetInfoFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -35,13 +36,11 @@ export default function ObjetInfoForm({
   const text = path === 'create' ? '오브제 생성' : '오브제 수정'
 
   const userId = useUserStore((state) => state.userId)
-  const { oid } = useParams()
 
-  const objetId = path === 'create' ? 0 : oid
+  const objetId = path === 'create' ? 0 : updateObjetId
   const [loungeId, setLoungeId] = useState(
     path === 'create' ? localStorage.getItem('loungeId') : 0
   )
-
   const [userList, setUserList] = useState<SharedMembersProps[]>([])
 
   const [sharedMembers, setSharedMembers] = useState<SharedMembersProps[]>([])

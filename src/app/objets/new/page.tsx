@@ -2,78 +2,17 @@
 
 import Layout from '@components/Layout'
 import styles from './page.module.css'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import { Group } from 'three'
-import { objetList } from '@components/models/NewObjetModels'
 import SelectObjetType from '../components/SelectObjetType'
 import ObjetInfoForm from '../components/ObjetInputForm'
-import { ObjetInfoFormProps } from '@/types/objetProps'
-import { useSearchParams, usePathname } from 'next/navigation'
-import { APIs } from '@/static'
-import { useEffect, useRef, useState } from 'react'
+import RenderObjet from '../components/RenderObjet'
+import { useState } from 'react'
 
 export default function ObjetForm() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const step = pathname?.includes('new') ? 'create' : 'update'
-
-  const oid = searchParams.get('oid')
-  const objetId = step === 'update' ? oid : 0
-
   const [selectedType, setSelectedType] = useState<string>('')
-  const [objetInfo, setObjetInfo] = useState<any | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const isSelected = selectedType !== ''
-
-  useEffect(() => {
-    if (step === 'update' && objetId) {
-      const fetchObjetInfo = async () => {
-        setIsLoading(true)
-        try {
-          const objetResponse = await fetch(`${APIs.objet}/${objetId}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            },
-            credentials: 'include',
-          })
-          if (!objetResponse.ok) throw new Error('Failed to fetch objet data')
-
-          const sharersResponse = await fetch(
-            `${APIs.objet}/${objetId}/sharers`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-              },
-              credentials: 'include',
-            }
-          )
-          if (!sharersResponse.ok)
-            throw new Error('Failed to fetch sharers data')
-
-          const objetData = await objetResponse.json()
-          const sharersData = await sharersResponse.json()
-
-          setObjetInfo({
-            lounge_id: objetData.data.lounge_id,
-            name: objetData.data.name,
-            description: objetData.data.description,
-            sharers: sharersData.data.sharers,
-            objet_image: objetData.data.objet_image,
-            objet_type: objetData.data.objet_type,
-          })
-          setSelectedType(objetData.data.objet_type)
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setIsLoading(false)
-        }
-      }
-
-      fetchObjetInfo()
-    }
-  }, [step, objetId])
 
   return (
     <Layout>
@@ -97,48 +36,13 @@ export default function ObjetForm() {
         </div>
 
         <div className={styles.container}>
-          {step === 'create' ? (
-            isSelected ? (
-              <ObjetInfoForm path='create' type={selectedType} />
-            ) : (
-              <SelectObjetType setSelectedType={setSelectedType} />
-            )
+          {isSelected ? (
+            <ObjetInfoForm path='create' type={selectedType} />
           ) : (
-            !isLoading &&
-            objetInfo && (
-              <ObjetInfoForm
-                path='update'
-                type={selectedType}
-                objetInfo={objetInfo}
-              />
-            )
+            <SelectObjetType setSelectedType={setSelectedType} />
           )}
         </div>
       </div>
     </Layout>
-  )
-}
-
-function RenderObjet({ type }: ObjetInfoFormProps) {
-  const ref = useRef<Group>(null)
-  const model = objetList.find((objet) => objet.type === type)?.model
-
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y += 0.01
-    }
-  })
-
-  const scale: [number, number, number] =
-    type === 'O0001'
-      ? [1, 1, 1]
-      : type === 'O0002'
-      ? [3.5, 3.5, 3.5]
-      : [48, 48, 48]
-
-  return (
-    <group ref={ref} rotation-y={-Math.PI / 2} scale={scale}>
-      {model}
-    </group>
   )
 }
