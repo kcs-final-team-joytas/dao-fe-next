@@ -240,7 +240,7 @@ export default function ObjetInfoForm({
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
         },
-        credentials: 'include', // withCredentials 대체
+        credentials: 'include',
         body: formData,
       })
 
@@ -249,6 +249,7 @@ export default function ObjetInfoForm({
       }
 
       const data = await response.json()
+      console.log(data.data.image_url)
       return data.data.image_url
     } catch (error) {
       console.error('Image upload failed:', error)
@@ -285,8 +286,7 @@ export default function ObjetInfoForm({
       if (!response.ok) {
         throw new Error('Failed to create objet')
       }
-
-      return await response.json()
+      return response
     } catch (error) {
       console.error('Create objet failed:', error)
       throw error
@@ -307,7 +307,7 @@ export default function ObjetInfoForm({
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // withCredentials 대체
+        credentials: 'include',
         body: JSON.stringify({
           name,
           description,
@@ -320,7 +320,7 @@ export default function ObjetInfoForm({
         throw new Error('Failed to update objet')
       }
 
-      return await response.json()
+      return response
     } catch (error) {
       console.error('Update objet failed:', error)
       throw error
@@ -370,13 +370,15 @@ export default function ObjetInfoForm({
         )
       }
 
+      const responseData = await response?.json()
+      console.log(response?.status)
       if (response?.status !== 201 && response?.status !== 200) {
         toast.error(`${text} 실패 😭`)
         return
       }
 
       toast.success(`${text} 성공 🪐`)
-      router.push(`${URL.objet}/${response?.data.data.objet_id || objetId}`)
+      router.push(`${URL.objet}/${responseData.data.objet_id || objetId}`)
     } catch (error) {
       console.error(`${text} 실패: `, error)
     } finally {
@@ -416,10 +418,18 @@ export default function ObjetInfoForm({
           <>
             <Mentions
               placeholder='@을 입력해주세요.'
+              className={styles.mention}
               onSearch={onMentionSearch}
               onSelect={(option) => onMentionSelect(option as OptionProps)}
               onChange={(value) => onMentionChange(value)}
               value={mentionValue}
+              style={{
+                minWidth: '50px',
+                height: '40px',
+                borderRadius: '10px',
+                backgroundColor: 'transparent',
+                color: 'white',
+              }}
               options={filteredUsers}
             />
             <div className={styles.tagWrapper}>
@@ -428,7 +438,7 @@ export default function ObjetInfoForm({
                   key={member.user_id}
                   closeIcon={<CloseCircleOutlined />}
                   color='white'
-                  style={{ color: 'black' }}
+                  style={{ color: 'black', alignItems: 'center' }}
                   onClose={() => handleTagClose(member.nickname)}
                 >
                   {member.nickname}
@@ -477,10 +487,11 @@ export default function ObjetInfoForm({
         img={'true'}
         input={
           <>
-            <label htmlFor='objetImage'>
+            <label className={styles.imageInputLabel} htmlFor='objetImage'>
               {imageUrl ? (
                 <>
                   <Image
+                    className={styles.imageInput}
                     width={120}
                     height={120}
                     src={imageUrl}
