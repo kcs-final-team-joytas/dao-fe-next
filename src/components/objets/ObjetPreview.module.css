@@ -106,7 +106,7 @@
 .objetContent {
   display: flex;
   flex: 1;
-  font-size: 13px;
+  font-size: 15px;
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
@@ -114,31 +114,19 @@
 
 @media (min-width: 600px) {
   .objetContent {
-    font-size: 15px;
+    font-size: 18px;
   }
 }
 
 .objetTitle {
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 500;
-}
-
-@media (min-width: 600px) {
-  .objetTitle {
-    font-size: 15px;
-  }
 }
 
 .objetDescription {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 9px;
-}
-
-@media (min-width: 600px) {
-  .objetDescription {
-    font-size: 12px;
-  }
+  font-size: 15px;
 }
 
 .communityBtn {
