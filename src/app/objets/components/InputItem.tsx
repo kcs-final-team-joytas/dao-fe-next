@@ -32,7 +32,11 @@ export default function InputItem({
       </span>
       <div className={styles.itemInput}>
         <div className={inputBoxClasses}>{input}</div>
-        {helperText && <div className={styles.redText}>{helperText}</div>}
+        {helperText && (
+          <div style={{ marginTop: '10px' }} className={styles.redText}>
+            {helperText}
+          </div>
+        )}
       </div>
     </div>
   )

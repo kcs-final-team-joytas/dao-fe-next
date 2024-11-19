@@ -3,28 +3,27 @@
   align-items: flex-start;
   margin-bottom: 8px;
   width: 100%;
-  background-color: black;
 }
 
 .itemLabel {
   display: flex;
   align-items: first baseline;
   flex-direction: row;
-  min-width: 50px;
+  width: 50%;
   font-size: 15px;
   font-weight: 600;
   margin: 10px 20px 0 0;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 390px) {
   .itemLabel {
     width: 50px;
   }
 }
 
-@media (min-width: 390px) {
+@media (min-width: 600px) {
   .itemLabel {
-    width: 90px;
+    width: 100px;
   }
 }
 
@@ -57,6 +56,7 @@
 }
 .inputBox.img {
   width: 120px;
+  height: fit-content;
 }
 
 .inputBox.longtext {
@@ -74,10 +74,8 @@
 }
 
 .redText {
-  font-size: 10px;
+  font-size: 13px;
   color: #d41313;
   text-align: start;
   margin-left: 4px;
-  margin-top: 10px;
-  height: 20px;
 }
