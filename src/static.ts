@@ -61,6 +61,6 @@ export const APIs = {
   myRoom: `${BACK_HOST}/api/v1/rooms`,
 
   // stomp
-  stomp: process.env.VITE_STOMP_API,
+  stomp: process.env.NEXT_PUBLIC_STOMP_API,
   chat: `${BACK_HOST}/api/v1/chat-rooms`,
 }
