@@ -47,10 +47,13 @@
 }
 
 .chattingsWrapper {
-  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+  max-height: 240px;
   overflow-y: auto;
   border: 1px solid gray;
   padding: 10px;
+  gap: 10px;
   border-radius: 10px;
 }
 
