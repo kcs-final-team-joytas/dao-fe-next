@@ -1,0 +1,68 @@
+.userListItemContainer {
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profileImageContainer {
+  display: flex;
+}
+
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: white;
+}
+
+.profileActive {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  right: 15px;
+  top: 25px;
+  border-radius: 50%;
+  background-color: #00bf08;
+}
+
+.profileNickname {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.inviteButton {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #746b6b;
+  width: 60px;
+  height: 25px;
+  font-size: 10px;
+  border-radius: 15px;
+  opacity: 70%;
+}
+
+.inviteButton:hover {
+  opacity: 100%;
+}
+
+.icon {
+  width: 35px;
+  height: 35px;
+  opacity: 70%;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 100%;
+}
