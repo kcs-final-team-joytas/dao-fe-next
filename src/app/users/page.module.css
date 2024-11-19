@@ -1,0 +1,60 @@
+.fullContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 0 32px;
+  box-sizing: border-box;
+  color: white;
+}
+
+.searchTitle {
+  padding-top: 50px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.users {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.searchInput {
+  width: 100%;
+  height: 30px;
+  margin-top: 15px;
+  padding: 5px 10px;
+  color: white;
+  background-color: #272727;
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.userListContainer {
+  width: 100%;
+  margin-top: 20px;
+  height: calc(100% - 180px);
+  overflow-y: auto;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+}
+
+.blankText {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6a6a6a;
+  font-size: 18px;
+  line-height: 30px;
+}
