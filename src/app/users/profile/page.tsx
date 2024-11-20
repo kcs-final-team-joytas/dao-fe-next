@@ -10,7 +10,7 @@ import { checkNicknameDuplicate } from '@utils/validation'
 import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
 import styles from './page.module.css'
-import { uploadProfileImage } from '@/utils/imageUtil'
+import { uploadImage } from '@/utils/imageUtil'
 
 export default function Page() {
   const userNickname = useUserStore((state) => state.nickname)
@@ -80,7 +80,7 @@ export default function Page() {
       try {
         let imageUrl = profileUrl
         if (profile) {
-          const uploadedImageUrl = await uploadProfileImage(profile)
+          const uploadedImageUrl = await uploadImage(profile)
           if (uploadedImageUrl) {
             imageUrl = uploadedImageUrl
             setProfileUrl(uploadedImageUrl)

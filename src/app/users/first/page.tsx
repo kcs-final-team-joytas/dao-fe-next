@@ -8,7 +8,7 @@ import NicknameInputField from '../components//NicknameInputField'
 import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
 import { APIs, URL } from '@/static'
-import { uploadProfileImage } from '@utils/imageUtil'
+import { uploadImage } from '@utils/imageUtil'
 import styles from './page.module.css'
 
 export default function FirstProfile() {
@@ -103,7 +103,7 @@ export default function FirstProfile() {
       const isValid = await validateNickname(nickname)
       if (isValid) {
         try {
-          const uploadedProfileUrl = await uploadProfileImage(profile)
+          const uploadedProfileUrl = await uploadImage(profile)
           if (uploadedProfileUrl) {
             await updateProfile(uploadedProfileUrl)
             updateProfileImage(uploadedProfileUrl)
