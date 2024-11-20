@@ -81,6 +81,10 @@ export default function Page({ params }: LayoutProps) {
       toast.error('방이 가득찼습니다! 🥲')
     } else {
       router.push(`${URL.objet}/${id}/call`)
+      sessionStorage.setItem(
+        'callLoungeId',
+        String(objetData?.lounge_id) || '0'
+      )
     }
   }
 
