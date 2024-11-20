@@ -10,6 +10,7 @@ import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import { ObjetInfoFormProps, SharedMembersProps } from '@/types/objetProps'
+import { uploadImage } from '@/utils/imageUtil'
 import {
   validateDescription,
   validateImage,
@@ -224,38 +225,6 @@ export default function ObjetInfoForm({
     }
   }
 
-  const uploadImage = async (image: File) => {
-    try {
-      const webpImageBlob = await convertImageToWebP(image)
-
-      const formData = new FormData()
-      formData.append(
-        'file',
-        new File([webpImageBlob], 'image.webp', { type: 'image/webp' })
-      )
-
-      const response = await fetch(APIs.uploadImage, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        credentials: 'include',
-        body: formData,
-      })
-
-      if (!response.ok) {
-        throw new Error('Image upload failed')
-      }
-
-      const data = await response.json()
-      console.log(data.data.image_url)
-      return data.data.image_url
-    } catch (error) {
-      console.error('Image upload failed:', error)
-      throw error
-    }
-  }
-
   const createObjet = async (
     loungeId: number,
     type: string,
@@ -356,7 +325,7 @@ export default function ObjetInfoForm({
           type,
           name,
           description,
-          receivedImageUrl,
+          receivedImageUrl || '',
           sharedMembers
         )
       } else if (path === 'update') {
@@ -364,7 +333,7 @@ export default function ObjetInfoForm({
           Number(objetId),
           name,
           description,
-          receivedImageUrl,
+          receivedImageUrl || '',
           sharedMembers
         )
       }

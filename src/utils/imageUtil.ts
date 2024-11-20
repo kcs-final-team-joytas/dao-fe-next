@@ -40,16 +40,13 @@ export const convertImageToWebP = (image: File): Promise<Blob> => {
   })
 }
 
-export const uploadProfileImage = async (
-  profile: File
-): Promise<string | undefined> => {
-  if (!profile) {
+export const uploadImage = async (image: File): Promise<string | undefined> => {
+  if (!image) {
     throw new Error('Profile image is not selected')
   }
 
-  const webpImage = await convertImageToWebP(profile)
+  const webpImage = await convertImageToWebP(image)
   const { upload_url: uploadUrl, image_url: useUrl } = await getUploadImageUrl()
-  console.log(uploadUrl, useUrl)
   const response = await fetch(uploadUrl, {
     method: 'PUT',
     headers: {
