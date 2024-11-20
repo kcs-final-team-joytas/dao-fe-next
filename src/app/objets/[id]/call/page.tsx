@@ -8,16 +8,21 @@ import { useState } from 'react'
 import VideoContainer from './components/VideoContainer'
 import { useRouter } from 'next/navigation'
 import { URL } from '@/static'
-import { useObjetContext } from '@utils/objetContext'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 export default function ObjetCall({ params }: { params: { id: number } }) {
   const router = useRouter()
   const [muted, setMuted] = useState(false)
   const objetId = params.id
 
-  const objetContext = useObjetContext()
-  const loungeId = objetContext?.objetData.lounge_id
+  const loungeId = Number(sessionStorage.getItem('callLoungeId'))
+
+  if (loungeId == 0) {
+    toast.info('오브제 페이지를 통해 접속해주세요.')
+    router.push(`${URL.objet}/${objetId}`)
+    return
+  }
 
   return (
     <>
