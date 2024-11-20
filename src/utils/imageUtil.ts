@@ -1,4 +1,5 @@
 import { APIs } from '@/static'
+import { toast } from 'react-toastify'
 
 export const convertImageToWebP = (image: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
@@ -46,26 +47,44 @@ export const uploadProfileImage = async (
     throw new Error('Profile image is not selected')
   }
 
-  const webpImageBlob = await convertImageToWebP(profile)
-
-  const formData = new FormData()
-  formData.append(
-    'file',
-    new File([webpImageBlob], 'image.webp', { type: 'image/webp' })
-  )
-
-  const response = await fetch(APIs.uploadImage, {
-    method: 'POST',
+  const webpImage = await convertImageToWebP(profile)
+  const { upload_url: uploadUrl, image_url: useUrl } = await getUploadImageUrl()
+  console.log(uploadUrl, useUrl)
+  const response = await fetch(uploadUrl, {
+    method: 'PUT',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'image/webp',
     },
-    body: formData,
+    credentials: 'include',
+    body: webpImage,
   })
 
   if (!response.ok) {
     throw new Error('Image upload failed')
   }
 
-  const data = await response.json()
-  return data.data.image_url
+  return useUrl
+}
+
+export const getUploadImageUrl = async (): Promise<{
+  upload_url: string
+  image_url: string
+}> => {
+  try {
+    const response = await fetch(APIs.uploadImage, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+      credentials: 'include',
+    })
+
+    if (!response.ok) {
+      throw new Error('Get upload url failed')
+    }
+    const responseData = await response.json()
+    return responseData.data
+  } catch (e) {
+    toast.error('이미지 업로드 url 가져오기 실패. 다시 시도해주세요')
+    return { upload_url: '', image_url: '' }
+  }
 }

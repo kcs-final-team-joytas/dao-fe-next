@@ -35,7 +35,7 @@ export const KAKAO_AUTH = process.env.NEXT_PUBLIC_KAKAO_AUTH
 export const BACK_HOST = process.env.NEXT_PUBLIC_BACKHOST
 
 export const APIs = {
-  uploadImage: `${BACK_HOST}/api/v1/uploads/images`,
+  uploadImage: `${BACK_HOST}/api/v1/uploads/url`,
   notification: `${BACK_HOST}/api/v1/notification`,
 
   // auth
