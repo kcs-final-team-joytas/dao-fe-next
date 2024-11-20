@@ -1,3 +1,5 @@
+import { APIs } from '@/static'
+
 export const convertImageToWebP = (image: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -35,4 +37,35 @@ export const convertImageToWebP = (image: File): Promise<Blob> => {
 
     reader.readAsDataURL(image)
   })
+}
+
+export const uploadProfileImage = async (
+  profile: File
+): Promise<string | undefined> => {
+  if (!profile) {
+    throw new Error('Profile image is not selected')
+  }
+
+  const webpImageBlob = await convertImageToWebP(profile)
+
+  const formData = new FormData()
+  formData.append(
+    'file',
+    new File([webpImageBlob], 'image.webp', { type: 'image/webp' })
+  )
+
+  const response = await fetch(APIs.uploadImage, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    body: formData,
+  })
+
+  if (!response.ok) {
+    throw new Error('Image upload failed')
+  }
+
+  const data = await response.json()
+  return data.data.image_url
 }

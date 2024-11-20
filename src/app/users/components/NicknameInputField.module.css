@@ -1,0 +1,33 @@
+.nicknameContainer {
+  margin-top: 20px;
+  padding: 0 64px;
+  box-sizing: border-box;
+  color: white;
+  width: 100%;
+}
+
+.nicknameTitle {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+.nicknameInput {
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 100%;
+  height: 40px;
+  padding: 5px 10px;
+  color: black;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.redTextLong {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 5px;
+}

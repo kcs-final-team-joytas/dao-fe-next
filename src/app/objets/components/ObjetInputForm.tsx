@@ -15,7 +15,7 @@ import {
   validateImage,
   validateName,
 } from '@utils/validation'
-import { convertImageToWebP } from '@utils/convertImage'
+import { convertImageToWebP } from '@/utils/imageUtil'
 import dynamic from 'next/dynamic'
 import styles from './ObjetInputForm.module.css'
 

@@ -1,0 +1,83 @@
+/* ProfileStyles.module.css */
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 130px;
+  height: fit-content;
+  color: white;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.subTitle {
+  margin-top: 10px;
+  color: white;
+  font-size: 15px;
+}
+
+.profileContainer {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageContainer {
+  width: 165px;
+  height: 165px;
+  position: relative;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.profile {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.noProfile {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.mainTitle {
+  font-size: 30px;
+  font-weight: 600;
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.modifyConfirmButton {
+  cursor: pointer;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  margin: 20px auto 10px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 10px;
+  color: #cfcfcf;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.deleteButton {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  width: fit-content;
+  margin: 10px auto;
+  font-size: 13px;
+  padding-bottom: 90px;
+}

@@ -1,0 +1,64 @@
+.profileContainer {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageContainer {
+  width: 165px;
+  height: 165px;
+  position: relative;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.profile {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.noProfile {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.profileTitle {
+  display: flex;
+  align-items: flex-start;
+  color: white;
+  margin: 40px 0 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.modifyButton {
+  cursor: pointer;
+  width: 60px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.redTextLong {
+  color: red;
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+}
