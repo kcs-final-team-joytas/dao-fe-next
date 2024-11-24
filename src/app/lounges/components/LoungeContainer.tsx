@@ -74,7 +74,6 @@ export default function LoungeContainer() {
   }
 
   const handleClickLounge = (lid: number) => {
-    localStorage.setItem('loungeId', String(lid))
     router.push(`${URL.lounge}/${lid}`)
   }
 
