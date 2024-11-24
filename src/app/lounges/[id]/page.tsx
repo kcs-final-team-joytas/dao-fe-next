@@ -40,6 +40,10 @@ export default function Lounge({ params }: LayoutProps) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    localStorage.setItem('loungeId', String(loungeId))
+  }, [loungeId])
+
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
