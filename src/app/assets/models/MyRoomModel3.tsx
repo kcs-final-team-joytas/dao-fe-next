@@ -1,13 +1,16 @@
 import React, { useMemo } from 'react'
 import * as THREE from 'three'
+import { GroupProps } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import { BufferGeometry, Material } from 'three'
 
-interface MyRoomModel3Props extends React.ComponentProps<'group'> {}
-
-export default function MyRoomModel3(props: MyRoomModel3Props) {
+export default function MyRoomModel3(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/myRoom_model3/scene.gltf'
-  ) as any
+  ) as unknown as {
+    nodes: Record<string, { geometry: BufferGeometry }>
+    materials: Record<string, Material>
+  }
 
   const meshData = useMemo(
     () => ({

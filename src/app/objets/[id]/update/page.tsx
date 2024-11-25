@@ -1,19 +1,28 @@
 'use client'
 
-import Layout from '@components/Layout'
+import { toast } from 'react-toastify'
 import styles from './page.module.css'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import ObjetInfoForm from '../../components/ObjetInputForm'
-import { useSearchParams, usePathname } from 'next/navigation'
 import { APIs } from '@/static'
 import { useEffect, useState } from 'react'
 import RenderObjet from '../../components/RenderObjet'
+import { SharedMembersProps } from '@/types/memberType'
+
+interface ObjetInfo {
+  lounge_id: number
+  name: string
+  description: string
+  sharers: SharedMembersProps[]
+  objet_image: string
+  objet_type: string
+}
 
 export default function ObjetForm({ params }: { params: { id: string } }) {
   const objetId = params.id
   const [selectedType, setSelectedType] = useState<string>('')
-  const [objetInfo, setObjetInfo] = useState<any | null>(null)
+  const [objetInfo, setObjetInfo] = useState<ObjetInfo>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const isSelected = selectedType !== ''
 
@@ -54,8 +63,8 @@ export default function ObjetForm({ params }: { params: { id: string } }) {
             objet_type: objetData.data.objet_type,
           })
           setSelectedType(objetData.data.objet_type)
-        } catch (error) {
-          console.error(error)
+        } catch {
+          toast.error('멤버 목록 불러오기 실패')
         } finally {
           setIsLoading(false)
         }

@@ -16,6 +16,8 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import MobileLoungeObjets from '../components/MobileLoungeObjets'
 import { DeleteLoungeModal, WithDrawLoungeModal } from '@components/modal/Modal'
 import Image from 'next/image'
+import { Objet } from '@/types/modelType'
+import { LoungeProps } from '@/types/loungeType'
 
 const LoadingLottie = dynamic(
   () => import('@components/lotties/LoadingLottie'),
@@ -35,8 +37,8 @@ export default function Lounge({ params }: LayoutProps) {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
   const [isWithdrawModalVisible, setIsWithdrawModalVisible] = useState(false)
   const [isClick, setIsClick] = useState(false)
-  const [loungeData, setLoungeData] = useState<any>(null)
-  const [objets, setObjets] = useState<any[]>([])
+  const [loungeData, setLoungeData] = useState<LoungeProps>()
+  const [objets, setObjets] = useState<Objet[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -72,8 +74,7 @@ export default function Lounge({ params }: LayoutProps) {
         } else {
           throw new Error('Failed to fetch data')
         }
-      } catch (error) {
-        console.error(error)
+      } catch {
         toast.error('데이터를 가져오는 데 실패했습니다.')
       } finally {
         setIsLoading(false)
@@ -81,7 +82,7 @@ export default function Lounge({ params }: LayoutProps) {
     }
 
     fetchData()
-  }, [])
+  }, [loungeId])
 
   const handleDeleteLounge = async () => {
     try {
@@ -98,9 +99,8 @@ export default function Lounge({ params }: LayoutProps) {
       } else {
         throw new Error('Failed to delete lounge')
       }
-    } catch (error) {
+    } catch {
       toast.error('라운지 삭제 실패 😭')
-      console.error(error)
     } finally {
       setIsClick(false)
     }
@@ -121,9 +121,8 @@ export default function Lounge({ params }: LayoutProps) {
       } else {
         throw new Error('Failed to withdraw from lounge')
       }
-    } catch (error) {
+    } catch {
       toast.error('라운지 탈퇴 실패 😭')
-      console.error(error)
     } finally {
       setIsClick(false)
     }

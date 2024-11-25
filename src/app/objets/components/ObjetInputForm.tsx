@@ -5,7 +5,7 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 import type { MentionsProps } from 'antd'
 import { OptionProps } from 'antd/es/mentions'
 import { APIs, URL } from '@/static'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
 import Image from 'next/image'
@@ -16,7 +16,6 @@ import {
   validateImage,
   validateName,
 } from '@utils/validation'
-import { convertImageToWebP } from '@/utils/imageUtil'
 import dynamic from 'next/dynamic'
 import styles from './ObjetInputForm.module.css'
 
@@ -76,8 +75,9 @@ export default function ObjetInfoForm({
       setName(name)
       setDescription(description)
       setImageUrl(objet_image)
-      sharers &&
+      if (sharers) {
         setSharedMembers(sharers.filter((user) => user.user_id !== userId))
+      }
       setLoungeId(lounge_id)
 
       setNameValid(true)
@@ -88,7 +88,7 @@ export default function ObjetInfoForm({
         setIsAllSelected(true)
       }
     }
-  }, [objetInfo])
+  }, [objetInfo, userId, userList.length])
 
   useEffect(() => {
     if (userList.length === 0) {
@@ -112,7 +112,7 @@ export default function ObjetInfoForm({
               Authorization: `Bearer ${localStorage.getItem('access_token')}`,
               'Content-Type': 'application/json',
             },
-            credentials: 'include', // withCredentials에 해당
+            credentials: 'include',
           }
         )
 
@@ -122,7 +122,7 @@ export default function ObjetInfoForm({
 
         const data = await response.json()
         setUserList(data.data)
-      } catch (error) {
+      } catch {
         setUserList([])
       }
     },
@@ -255,9 +255,8 @@ export default function ObjetInfoForm({
         throw new Error('Failed to create objet')
       }
       return response
-    } catch (error) {
-      console.error('Create objet failed:', error)
-      throw error
+    } catch {
+      toast.error('오브제 생성 싪패')
     }
   }
 
@@ -289,9 +288,8 @@ export default function ObjetInfoForm({
       }
 
       return response
-    } catch (error) {
-      console.error('Update objet failed:', error)
-      throw error
+    } catch {
+      toast.error('오브제 수정 실패')
     }
   }
 
@@ -347,8 +345,8 @@ export default function ObjetInfoForm({
 
       toast.success(`${text} 성공 🪐`)
       router.push(`${URL.objet}/${responseData.data.objet_id || objetId}`)
-    } catch (error) {
-      console.error(`${text} 실패: `, error)
+    } catch {
+      console.error(`${text} 실패: `)
     } finally {
       setIsLoading(false)
       setIsClick(false)

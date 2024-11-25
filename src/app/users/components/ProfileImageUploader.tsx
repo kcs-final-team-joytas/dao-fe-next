@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import styles from './ProfileImageUploader.module.css'
+import Image from 'next/image'
 
 interface ProfileImageUploaderProps {
   profile: File | null
@@ -11,7 +12,6 @@ interface ProfileImageUploaderProps {
 }
 
 export default function ProfileImageUploader({
-  profile,
   profileUrl,
   imageError,
   setProfile,
@@ -48,7 +48,7 @@ export default function ProfileImageUploader({
       </div>
       <div className={styles.imageContainer}>
         {profileUrl ? (
-          <img className={styles.profile} alt='profile' src={profileUrl} />
+          <Image className={styles.profile} alt='profile' src={profileUrl} />
         ) : (
           <div className={styles.noProfile} />
         )}

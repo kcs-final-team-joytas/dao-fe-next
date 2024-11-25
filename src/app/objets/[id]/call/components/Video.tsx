@@ -72,10 +72,12 @@ export default function Video({
 
   return (
     <div className={styles.container}>
-      <img
+      <Image
         className={`${styles.profileImage} ${
           isSpeaking ? styles.isSpeaking : ''
         }`}
+        width={90}
+        height={90}
         src={profileImage}
         alt='Profile'
       />
@@ -89,6 +91,8 @@ export default function Video({
       <p className={styles.userLabel}>
         {nickname}
         <Image
+          width={90}
+          height={90}
           className={styles.muteButton}
           onClick={toggleMuteUser}
           src={isUserMuted ? volumeOff : volumeOn}

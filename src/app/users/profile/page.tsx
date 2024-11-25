@@ -91,8 +91,7 @@ export default function Page() {
         updateNickname(nickname)
         toast.success('프로필 변경 성공 🪐')
         router.push(URL.main)
-      } catch (error) {
-        console.error('프로필 변경 실패:', error)
+      } catch {
         toast.error('프로필 변경 실패 😭')
       } finally {
         setIsClickUpdate(false)

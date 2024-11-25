@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Chat.module.css'
 import { extractHourMinute } from '@utils/formatDatetime'
 import useUserStore from '@store/userStore'
+import Image from 'next/image'
 
 interface ChattingProps {
   userName: string
@@ -36,7 +37,7 @@ export function ChatMessage({
       </div>
     ) : (
       <div className={styles.chat} ref={innerRef}>
-        <img src={profileImg} alt='profile' className={styles.profileImg} />
+        <Image src={profileImg} alt='profile' className={styles.profileImg} />
         <div className={styles.chatContents}>
           <span className={styles.userName}>{userName}</span>
           <div className={styles.contentsAndDatetime}>
@@ -50,7 +51,7 @@ export function ChatMessage({
     )
   ) : (
     <div className={styles.chat} style={{ gap: 0 }}>
-      <img src={profileImg} alt='profile' className={styles.profileImg} />
+      <Image src={profileImg} alt='profile' className={styles.profileImg} />
       <div className={styles.chatContents} style={{ marginLeft: '5px' }}>
         <span className={styles.userName} style={{ fontSize: '13px' }}>
           {userName}

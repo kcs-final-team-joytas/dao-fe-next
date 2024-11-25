@@ -5,6 +5,7 @@ import useUserStore from '@store/userStore'
 import Video from './Video'
 import { toast } from 'react-toastify'
 import styles from './VideoContainer.module.css'
+import Image from 'next/image'
 
 interface WebRTCUser {
   socket_id: string
@@ -142,7 +143,8 @@ export default function VideoContainer({
   }, [])
 
   useEffect(() => {
-    muted ? muteMyAudio() : unmuteMyAudio()
+    if (muted) muteMyAudio()
+    else unmuteMyAudio()
   }, [muted])
 
   useEffect(() => {
@@ -288,9 +290,12 @@ export default function VideoContainer({
   return (
     <>
       <div className={styles.container}>
-        <img
-          className={`${styles.profileImage} ${true ? styles.isSpeaking : ''}`} // 실제 조건에 맞게 수정 필요
+        <Image
+          width={90}
+          height={90}
+          className={`${styles.profileImage} ${styles.isSpeaking}`}
           src={profile_image}
+          alt='프로필 이미지'
         />
         <audio
           className={styles.myAudio}

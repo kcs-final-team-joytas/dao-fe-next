@@ -1,18 +1,29 @@
 import { useGLTF } from '@react-three/drei'
+import { GroupProps } from '@react-three/fiber'
 import React, { useMemo } from 'react'
+import { BufferGeometry, Material } from 'three'
 
-interface LoungeModel1Props {
-  [key: string]: any
+interface LoungeGLTF {
+  nodes: Record<string, { geometry: BufferGeometry }>
+  materials: Record<string, Material>
 }
 
-const MemoizedMesh = React.memo(({ geometry, material }: any) => (
-  <mesh geometry={geometry} material={material} />
-))
+const MemoizedMesh = React.memo(
+  ({
+    geometry,
+    material,
+  }: {
+    geometry: BufferGeometry
+    material: Material
+  }) => <mesh geometry={geometry} material={material} />
+)
 
-export default function LoungeModel1(props: LoungeModel1Props) {
+MemoizedMesh.displayName = 'MemoizedMesh'
+
+export default function LoungeModel1(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/lounge_model1/scene.gltf'
-  ) as any
+  ) as unknown as LoungeGLTF
 
   const meshes = useMemo(
     () => [

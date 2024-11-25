@@ -1,9 +1,10 @@
 'use client'
+
 import Layout from '@components/Layout'
 import styles from './layout.module.css'
 import { useRouter, usePathname } from 'next/navigation'
 import useUserStore from '@store/userStore'
-import { useRef, useState, useEffect, ReactNode } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { extractYearMonthDate } from '@utils/formatDatetime'
 import { APIs, URL } from '@/static'
@@ -41,6 +42,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
   const path = usePathname()
   const isObjetDetail = path.includes('objet')
   const isChatting = path.includes('chatting')
+  const isCalling = path.includes('call')
   const isUpdate = path.includes('update')
 
   const [isDropVisible, setIsDropVisible] = useState(false)
@@ -67,7 +69,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
       const data = await response.json()
       setObjetData(data.data)
-    } catch (error) {
+    } catch {
       toast.error('해당 오브제를 찾을 수 없습니다 😅')
       router.push('/lounges')
     } finally {
@@ -91,8 +93,8 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
       const data = await response.json()
       setCallingPeople(data.data.calling_user_num)
-    } catch (err) {
-      console.error(err)
+    } catch {
+      toast.error('오브제 통화 인원 수 가져오기 실패')
     } finally {
       setIsLoading(false)
     }
@@ -115,7 +117,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
       toast.success('오브제 삭제 성공 🪐')
       router.push(`/lounge/${objetData?.lounge_id}`)
-    } catch (error) {
+    } catch {
       toast.error('오브제 삭제 실패 😭')
     } finally {
       setIsDeleteModalVisible(false)
@@ -182,7 +184,8 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
           <div className={styles.rightContainer}>
             {isObjetDetail &&
             myUserId === objetData?.owner?.user_id &&
-            !isChatting ? (
+            !isChatting &&
+            !isCalling ? (
               <>
                 <Image
                   className={styles.menuIcon}
@@ -204,7 +207,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
                   </div>
                 )}
               </>
-            ) : isChatting ? (
+            ) : isChatting || isCalling ? (
               <Image
                 alt='퇴장'
                 className='leave'

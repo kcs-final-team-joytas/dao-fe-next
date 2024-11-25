@@ -5,6 +5,7 @@ import { URL } from '@/static'
 import { extractYearMonthDate2 } from '@/utils/formatDatetime'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 
 const NoDataLottie = dynamic(() => import('@components/lotties/NoDataLottie'), {
   ssr: false,
@@ -52,7 +53,7 @@ export default function MobileLoungeObjets({
         >
           <div className={styles.topContainer}>
             <div className={styles.user}>
-              <img src={objet.owner?.profile_image} alt='profile' />
+              <Image src={objet.owner?.profile_image || ''} alt='profile' />
               <div>{objet.owner?.nickname}</div>
             </div>
             <div>
@@ -60,7 +61,7 @@ export default function MobileLoungeObjets({
             </div>
           </div>
           <div className={styles.objetContainer}>
-            <img src={objet.objet_image} alt='objet' />
+            <Image src={objet.objet_image} alt='objet' />
             <div>{objet.name}</div>
           </div>
           {index !== objets.length - 1 && <div className={styles.line} />}

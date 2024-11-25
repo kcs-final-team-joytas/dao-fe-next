@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import NoPrevObjet from '@components/objets/NoPrevObjet'
 import styles from './RecentObjets.module.css'
 import { APIs } from '@/static'
+import { toast } from 'react-toastify'
 
 export default function RecentObjets() {
   const [objets, setObjets] = useState([])
@@ -31,8 +32,8 @@ export default function RecentObjets() {
           })
           const data = await response.json()
           setObjets(data.data || [])
-        } catch (error) {
-          console.error('Failed to fetch objets', error)
+        } catch {
+          toast.error('오브제 미리보기 조회 실패')
           setError(true)
         } finally {
           setIsLoading(false)

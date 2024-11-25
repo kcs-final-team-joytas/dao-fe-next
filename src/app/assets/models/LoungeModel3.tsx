@@ -1,26 +1,44 @@
 import { useGLTF } from '@react-three/drei'
 import { GroupProps } from '@react-three/fiber'
-import { Vector3, Euler } from 'three'
 import React, { useMemo } from 'react'
+import { BufferGeometry, Material, Vector3, Euler } from 'three'
 
-interface LoungeModel3Props extends GroupProps {}
+interface MeshData {
+  geometry: BufferGeometry
+  material: Material
+  position: Vector3
+  rotation: Euler
+  scale: Vector3
+}
+
+interface GroupData {
+  position: [number, number, number]
+  rotation: Euler
+  scale?: Vector3
+  meshes: { geometry: BufferGeometry; material: Material }[]
+}
 
 const MemoizedGroup = React.memo(
-  ({ position, rotation, scale, meshes }: any) => (
+  ({ position, rotation, scale, meshes }: GroupData) => (
     <group position={position} rotation={rotation} scale={scale}>
-      {meshes.map((mesh: any, index: number) => (
+      {meshes.map((mesh, index) => (
         <mesh key={index} geometry={mesh.geometry} material={mesh.material} />
       ))}
     </group>
   )
 )
 
-export default function LoungeModel3(props: LoungeModel3Props) {
+MemoizedGroup.displayName = 'MemoizedGroup'
+
+export default function LoungeModel3(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/lounge_model3/scene.gltf'
-  ) as any
+  ) as unknown as {
+    nodes: Record<string, { geometry: BufferGeometry }>
+    materials: Record<string, Material>
+  }
 
-  const groupData = useMemo(
+  const groupData = useMemo<GroupData[]>(
     () => [
       {
         position: [0.239, 0.3, -0.085],
@@ -187,7 +205,7 @@ export default function LoungeModel3(props: LoungeModel3Props) {
     [nodes, materials]
   )
 
-  const meshData = useMemo(
+  const meshData = useMemo<MeshData[]>(
     () => [
       {
         geometry: nodes.Object_7.geometry,

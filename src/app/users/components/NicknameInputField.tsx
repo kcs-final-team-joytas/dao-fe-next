@@ -24,7 +24,7 @@ export default function NicknameInputField({
     return () => {
       clearTimeout(handler)
     }
-  }, [debouncedNickname])
+  }, [validateNickname, debouncedNickname])
 
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newNickname = event.target.value

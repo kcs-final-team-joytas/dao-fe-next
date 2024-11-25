@@ -20,6 +20,8 @@ const Recent = React.memo(() => {
   )
 })
 
+Recent.displayName = 'Recent'
+
 export default function Home() {
   return (
     <Layout>

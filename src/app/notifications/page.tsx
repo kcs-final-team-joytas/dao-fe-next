@@ -10,6 +10,7 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import { getData } from './getData'
 import RenderNotificationList from '@/components/notifications/NotificationList'
+import { toast } from 'react-toastify'
 
 export default function Notifications() {
   const router = useRouter()
@@ -40,8 +41,8 @@ export default function Notifications() {
       })
       setHasNext(data.data.has_next)
       setCursor(data.data.next_cursor)
-    } catch (error) {
-      console.error(error)
+    } catch {
+      toast.error('알림 가져오기 실패')
     } finally {
       setIsFetching(false)
     }
@@ -75,8 +76,8 @@ export default function Notifications() {
         setNotifications(data.data.notifications)
         setHasNext(data.data.has_next)
         setCursor(data.data.next_cursor)
-      } catch (error) {
-        console.error(error)
+      } catch {
+        toast.error('알림 가져오기 실패')
       } finally {
         setIsFetching(false)
       }

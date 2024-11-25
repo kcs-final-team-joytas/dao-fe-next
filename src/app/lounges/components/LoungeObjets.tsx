@@ -17,7 +17,7 @@ const NoDataLottie = dynamic(() => import('@components/lotties/NoDataLottie'), {
 function LoungeCanvas({ objets }: { objets?: Objet[] }) {
   const router = useRouter()
   const { camera, gl, scene } = useThree()
-  const controlsRef = useRef<any>(null)
+  const controlsRef = useRef(null)
   const targetPositionRef = useRef(new THREE.Vector3())
   const initialCameraSet = useRef(false)
 

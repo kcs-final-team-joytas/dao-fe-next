@@ -1,15 +1,18 @@
 import { useGLTF } from '@react-three/drei'
 import { GroupProps } from '@react-three/fiber'
 import { useMemo } from 'react'
+import { BufferGeometry, Material } from 'three'
+import { MeshData } from '@/types/modelType'
 
-interface LoungeModel4Props extends GroupProps {}
-
-export default function LoungeModel4(props: LoungeModel4Props) {
+export default function LoungeModel4(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/lounge_model4/scene.gltf'
-  ) as any
+  ) as unknown as {
+    nodes: Record<string, { geometry: BufferGeometry }>
+    materials: Record<string, Material>
+  }
 
-  const meshes = useMemo(
+  const meshes: MeshData[] = useMemo(
     () => [
       { geometry: nodes.Ball_Ball_0.geometry, material: materials.Ball },
       { geometry: nodes.chair_chiar_0.geometry, material: materials.chiar },
