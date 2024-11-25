@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Footer() {
   const pathname = usePathname()
-  const profileImage = useUserStore((state) => state.profileImage)
+  const profileImage = useUserStore((state) => state.profileImage) || ''
 
   return (
     <div className={styles.footerDiv}>
@@ -32,7 +32,9 @@ export default function Footer() {
       </Link>
       <Link className={styles.iconDiv} href={URL.lounge}>
         <Image
-          alt=''
+          alt='아이콘'
+          width={22}
+          height={22}
           src={
             pathname.includes('lounges') ||
             (!pathname.includes('myRoom') && pathname.includes('objets'))
@@ -69,9 +71,11 @@ export default function Footer() {
         </div>
       </Link>
       <Link className={styles.iconDiv} href={URL.myRoom}>
-        <img
+        <Image
           src={profileImage}
           alt='마이룸'
+          width={22}
+          height={22}
           className={styles.iconImg}
           style={{
             border: pathname.includes('myRoom') ? '1px solid white' : 'none',

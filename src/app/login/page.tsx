@@ -30,7 +30,9 @@ export default function Login() {
             alt='logo'
             style={{ width: '300px', height: '100px' }}
           />
-          <div className={styles.mini}>"Digital Archive of Our Memories"</div>
+          <div className={styles.mini}>
+            &quotDigital Archive of Our Memories&quot
+          </div>
         </div>
         <Link
           href={process.env.NEXT_PUBLIC_KAKAO_AUTH ?? ''}

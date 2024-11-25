@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import { BufferGeometry, Material, Vector3 } from 'three'
+import { SharedMembersProps } from './memberType'
 
 export interface RandomModelsProps {
   onModelClick: (model: THREE.Group) => void
@@ -22,4 +24,13 @@ export interface Objet {
     nickname: string
     profile_image: string
   }
+  sharers?: SharedMembersProps
+}
+
+export interface MeshData {
+  geometry: BufferGeometry
+  material: Material
+  position?: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: Vector3
 }

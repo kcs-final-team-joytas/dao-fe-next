@@ -132,7 +132,14 @@ function Objet({
       id={id}
       onClick={() => router.push(`${URL.objet}/${objetId}`)}
     >
-      <img src={image} alt={title} className={styles.objetImage} />
+      <Image
+        src={image}
+        priority
+        width={100}
+        height={100}
+        alt={title}
+        className={styles.objetImage}
+      />
       <div className={styles.objetContent}>
         <div className={styles.objetTitle}>{title}</div>
         <div className={styles.objetDescription}>

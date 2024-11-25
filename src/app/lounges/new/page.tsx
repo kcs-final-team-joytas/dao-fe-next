@@ -14,8 +14,9 @@ import { LoungeModelList } from '@components/models/LazyModelList'
 import Image from 'next/image'
 import left from '@assets/images/left.webp'
 import right from '@assets/images/right.webp'
+import { LoungeProps } from '@/types/loungeType'
 
-const fetchLoungeList = async (): Promise<any[]> => {
+const fetchLoungeList = async (): Promise<LoungeProps[]> => {
   const response = await fetch(APIs.loungeList, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -30,6 +31,8 @@ const fetchLoungeList = async (): Promise<any[]> => {
 const CurrentModel = React.memo(({ index }: { index: number }) => {
   return <Model index={index} />
 })
+
+CurrentModel.displayName = 'CurrentModel'
 
 export default function NewLounge(): JSX.Element {
   const [loungeName, setLoungeName] = useState<string>('')
@@ -51,8 +54,8 @@ export default function NewLounge(): JSX.Element {
           router.push(URL.lounge)
         }
       })
-      .catch((error) => {
-        console.error('Failed to fetch lounge list', error)
+      .catch(() => {
+        toast.error('라운지 목록 조회 실패')
       })
   }, [router])
 
@@ -94,7 +97,7 @@ export default function NewLounge(): JSX.Element {
       const data = await response.json()
       toast.success('라운지 생성 성공 🪐')
       router.push(`${URL.lounge}/${data.data.lounge_id}`)
-    } catch (error) {
+    } catch {
       toast.error('라운지 생성 실패 😭')
     } finally {
       setIsClick(false)

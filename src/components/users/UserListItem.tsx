@@ -68,7 +68,7 @@ export default function UserListItem({ type, user, lounge_id }: UserListProps) {
     try {
       await pokeUser(user.user_id)
       toast.success(`${user.nickname} 콕 찌르기 성공 😊`)
-    } catch (error) {
+    } catch {
       toast.error('콕 찌르기 실패 🥲')
     } finally {
       setIsClick(false)
@@ -80,7 +80,7 @@ export default function UserListItem({ type, user, lounge_id }: UserListProps) {
     try {
       await inviteUser(user.user_id, Number(loungeId))
       toast.success('유저 초대 성공 😉')
-    } catch (error) {
+    } catch {
       toast.error('유저 초대 실패 🥲')
     } finally {
       setIsClick(false)
@@ -91,9 +91,11 @@ export default function UserListItem({ type, user, lounge_id }: UserListProps) {
     <div className={styles.userListItemContainer} key={user.user_id}>
       <div className={styles.profileContainer} onClick={handleUserClick}>
         <div className={styles.profileImageContainer}>
-          <img
+          <Image
             src={user.profile_url}
             alt={user.nickname}
+            width={40}
+            height={40}
             className={styles.profileImage}
           />
           <div className={styles.profileActive}></div>

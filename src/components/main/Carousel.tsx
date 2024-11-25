@@ -1,12 +1,12 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import styles from './Carousel.module.css'
 import banner1 from '@images/banner/banner1.webp'
 import banner2 from '@images/banner/banner2.webp'
 import banner3 from '@images/banner/banner3.webp'
 import banner4 from '@images/banner/banner4.webp'
-import Image from 'next/image'
-import styles from './Carousel.module.css'
 
 const Carousel = dynamic(() => import('antd/lib/carousel'), { ssr: false })
 

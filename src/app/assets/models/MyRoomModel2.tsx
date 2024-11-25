@@ -1,12 +1,15 @@
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
+import { GroupProps } from '@react-three/fiber'
+import { BufferGeometry, Material } from 'three'
 
-interface MyRoomModel2Props extends React.ComponentProps<'group'> {}
-
-export default function MyRoomModel2(props: MyRoomModel2Props) {
+export default function MyRoomModel2(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/myRoom_model2/scene.gltf'
-  ) as any
+  ) as unknown as {
+    nodes: Record<string, { geometry: BufferGeometry }>
+    materials: Record<string, Material>
+  }
 
   return (
     <group {...props} dispose={null}>

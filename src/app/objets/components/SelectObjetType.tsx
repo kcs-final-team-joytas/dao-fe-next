@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Vector3, Group, Box3 } from 'three'
 import { ObjetModelList } from '@components/models/LazyModelList'
+import Image from 'next/image'
 
 interface ObjetProps {
   setSelectedType: (type: string) => void
@@ -41,18 +42,22 @@ export default function SelectObjetType({ setSelectedType }: ObjetProps) {
       </div>
       <div className={styles.modelIndexText}>{currentModelIndex + 1} / 3</div>
       <div className={styles.chooseContainer}>
-        <img
+        <Image
           className={styles.moveIcon}
           src={left.src}
+          width={25}
+          height={25}
           alt='Left Arrow'
           onClick={handleLeftClick}
         />
         <button className={styles.chooseButton} onClick={handleSelectClick}>
           선택
         </button>
-        <img
+        <Image
           className={styles.moveIcon}
           src={right.src}
+          width={25}
+          height={25}
           alt='Right Arrow'
           onClick={handleRightClick}
         />

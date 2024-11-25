@@ -66,7 +66,7 @@ export default function Page() {
 
     fetchSearchUsers(debouncedSearchUser)
       .then((users) => setUserList(users))
-      .catch((err) => setError('유저 검색 실패'))
+      .catch(() => setError('유저 검색 실패'))
       .finally(() => setIsLoading(false))
   }, [debouncedSearchUser])
 

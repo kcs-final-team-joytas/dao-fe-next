@@ -1,4 +1,5 @@
 'use client'
+
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import styles from './page.module.css'
@@ -8,6 +9,7 @@ import useObjetStore from '@/store/objetStore'
 import { toast } from 'react-toastify'
 import GoCommunityBtn from './components/GoCommunityBtn'
 import { ChatMessage } from './components/ChatMessage'
+import Image from 'next/image'
 
 interface LayoutProps {
   params: { id: string }
@@ -28,7 +30,7 @@ export default function Page({ params }: LayoutProps) {
   const objetContext = useObjetContext()
   const { objetData, callingPeople = 0 } = objetContext || {}
   const id = params.id
-  const [chatData, setChatData] = useState<any>()
+  const [chatData, setChatData] = useState<Message[]>()
 
   const setChatToken = useObjetStore((state) => state.setChatToken)
 
@@ -67,8 +69,8 @@ export default function Page({ params }: LayoutProps) {
 
       const chatData = await chatResponse.json()
       setChatData(chatData.data.messages)
-    } catch (error) {
-      console.error('Failed to fetch chat data:', error)
+    } catch {
+      toast.error('채팅 가져오기 실패')
     }
   }
 
@@ -96,7 +98,9 @@ export default function Page({ params }: LayoutProps) {
     <div className={styles.container}>
       <div className={styles.detailContainer}>
         {objetData?.objet_image ? (
-          <img
+          <Image
+            width={500}
+            height={500}
             loading='eager'
             className={styles.objetImg}
             src={objetData?.objet_image || ''}

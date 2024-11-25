@@ -45,8 +45,7 @@ export default function LoungeContainer() {
 
         const data = await response.json()
         setLoungeList(data.data)
-      } catch (error) {
-        console.error('Failed to fetch lounge list', error)
+      } catch {
         setIsError(true)
       } finally {
         setIsLoading(false)

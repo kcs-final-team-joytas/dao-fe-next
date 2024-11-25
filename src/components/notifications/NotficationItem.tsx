@@ -75,7 +75,7 @@ export default function NotificationItem({
         throw new Error('라운지 초대 수락에 실패했습니다.')
       }
       router.push(`${URL.lounge}/${detail.domain_id}`)
-    } catch (error) {
+    } catch {
       toast.error('오류가 발생했습니다. 다음에 다시 시도해주세요.')
     }
   }
@@ -117,11 +117,13 @@ export default function NotificationItem({
           is_read ? styles.read : ''
         }`}
         onClick={() => {
-          type === 'N0001'
-            ? setIsModalVisible(true)
-            : type === 'N0002'
-            ? handleClickObjetNoti()
-            : handleClickPokeNoti()
+          if (type === 'N0001') {
+            setIsModalVisible(true)
+          } else if (type === 'N0002') {
+            handleClickObjetNoti()
+          } else {
+            handleClickPokeNoti()
+          }
         }}
       >
         <Image

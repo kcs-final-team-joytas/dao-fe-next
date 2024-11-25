@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
+import { GroupProps } from '@react-three/fiber'
 
-interface MyRoomModel1Props extends React.ComponentProps<'group'> {}
-
-export default function MyRoomModel1(props: MyRoomModel1Props) {
+export default function MyRoomModel1(props: GroupProps) {
   const { nodes, materials } = useGLTF(
     '/models/myRoom_model1/scene.gltf'
   ) as unknown as {

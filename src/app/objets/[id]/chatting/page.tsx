@@ -65,8 +65,8 @@ export default function Page() {
       const data = await response.json()
       setMessages(data.data.messages)
       setHasMore(data.data.has_next)
-    } catch (error) {
-      console.error('Failed to fetch messages:', error)
+    } catch {
+      toast.error('채팅 메세지 가져오기 실패')
     } finally {
       setLoading(false)
     }
@@ -102,8 +102,8 @@ export default function Page() {
             nextScrollHeight - prevScrollHeight + prevScrollTop
         }
       }, 0)
-    } catch (error) {
-      console.error('Failed to fetch more messages:', error)
+    } catch {
+      toast.error('채팅 메세지 불러오기 실패')
     } finally {
       setLoading(false)
     }
@@ -140,8 +140,8 @@ export default function Page() {
           room_token: chatToken,
         }),
       })
-    } catch (error) {
-      console.error('Failed to enter chat:', error)
+    } catch {
+      toast.error('채팅방 입장 실패')
     }
   }
 
@@ -168,9 +168,8 @@ export default function Page() {
           room_token: chatToken,
         }),
       })
-    } catch (error) {
-      console.error('Failed to send message:', error)
-      toast.info('Please wait before sending another message.')
+    } catch {
+      toast.info('채팅 보내기 실패. 몇 초 뒤에 다시 시도해주세요')
       setShouldWait(true)
       setTimeout(() => setShouldWait(false), 2000)
     } finally {
@@ -194,8 +193,8 @@ export default function Page() {
           room_token: chatToken,
         }),
       })
-    } catch (error) {
-      console.error('Failed to leave chat:', error)
+    } catch {
+      toast.error('채팅방 나가기 실패')
     }
   }
 

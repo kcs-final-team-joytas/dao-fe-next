@@ -111,8 +111,7 @@ export default function FirstProfile() {
           updateNickname(nickname)
           toast.success('프로필 설정 성공 🪐')
           router.push(URL.main)
-        } catch (error) {
-          console.error('Error: ', error)
+        } catch {
           toast.error('프로필 설정 실패 😭')
         } finally {
           setIsClick(false)

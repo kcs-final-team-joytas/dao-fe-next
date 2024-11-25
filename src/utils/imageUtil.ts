@@ -80,7 +80,7 @@ export const getUploadImageUrl = async (): Promise<{
     }
     const responseData = await response.json()
     return responseData.data
-  } catch (e) {
+  } catch {
     toast.error('이미지 업로드 url 가져오기 실패. 다시 시도해주세요')
     return { upload_url: '', image_url: '' }
   }

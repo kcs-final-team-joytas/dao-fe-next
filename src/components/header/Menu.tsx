@@ -65,7 +65,7 @@ export default function Menu() {
       logout()
       toast.success('로그아웃 성공 😀')
       router.push(URL.login)
-    } catch (error) {
+    } catch {
       toast.error('로그아웃 실패 😭')
     } finally {
       setIsLoadingLogout(false)
@@ -87,7 +87,7 @@ export default function Menu() {
       await inquiryRequest(email, contents)
       toast.success('문의하기 성공 😀')
       handleCloseInquiry()
-    } catch (error) {
+    } catch {
       toast.error('문의하기 실패 😭')
     } finally {
       setIsLoadingInquiry(false)

@@ -48,7 +48,7 @@ export const useUserInfo = () => {
 
           const retryData = await retryResponse.json()
           return retryData.data
-        } catch (error) {
+        } catch {
           router.push(URL.login)
           return
         }
@@ -58,8 +58,8 @@ export const useUserInfo = () => {
 
       const data = await response.json()
       return data.data
-    } catch (error) {
-      console.error('Error fetching profile:', error)
+    } catch {
+      console.error('Error fetching profile')
       return
     }
   }
