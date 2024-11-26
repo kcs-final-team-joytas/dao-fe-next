@@ -118,7 +118,9 @@ export default function LoungeObjets({ objets, loungeId }: ObjetsProps) {
   }
 
   return (
-    <Canvas style={{ border: '0.1px solid gray' }}>
+    <Canvas
+      style={{ width: '100%', aspectRatio: '0.5', border: '0.1px solid gray' }}
+    >
       <LoungeCanvas objets={objets} />
     </Canvas>
   )

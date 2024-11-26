@@ -6,7 +6,7 @@
 
 .carouselContainer {
   width: 100%;
-  aspect-ratio: 0.5625;
+  height: fit-content;
   max-height: 280px;
 }
 
