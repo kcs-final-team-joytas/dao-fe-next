@@ -53,7 +53,12 @@ export default function MobileLoungeObjets({
         >
           <div className={styles.topContainer}>
             <div className={styles.user}>
-              <Image src={objet.owner?.profile_image || ''} alt='profile' />
+              <Image
+                width={25}
+                height={25}
+                src={objet.owner?.profile_image || ''}
+                alt='profile'
+              />
               <div>{objet.owner?.nickname}</div>
             </div>
             <div>
@@ -61,7 +66,12 @@ export default function MobileLoungeObjets({
             </div>
           </div>
           <div className={styles.objetContainer}>
-            <Image src={objet.objet_image} alt='objet' />
+            <Image
+              width={390}
+              height={390}
+              src={objet.objet_image}
+              alt='objet'
+            />
             <div>{objet.name}</div>
           </div>
           {index !== objets.length - 1 && <div className={styles.line} />}

@@ -1,5 +1,6 @@
 .menuContainer {
   width: 100vw;
+  max-width: 600px;
   height: calc(100%);
   box-sizing: border-box;
   position: absolute;
