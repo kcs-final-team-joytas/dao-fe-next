@@ -63,8 +63,8 @@ export default function Menu() {
       await logoutRequest()
       localStorage.removeItem('access_token')
       logout()
-      toast.success('로그아웃 성공 😀')
       router.push(URL.login)
+      toast.success('로그아웃 성공 😀')
     } catch {
       toast.error('로그아웃 실패 😭')
     } finally {

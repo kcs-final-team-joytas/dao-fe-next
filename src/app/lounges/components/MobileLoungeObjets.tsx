@@ -67,8 +67,8 @@ export default function MobileLoungeObjets({
           </div>
           <div className={styles.objetContainer}>
             <Image
-              width={390}
-              height={390}
+              width={350}
+              height={350}
               src={objet.objet_image}
               alt='objet'
             />

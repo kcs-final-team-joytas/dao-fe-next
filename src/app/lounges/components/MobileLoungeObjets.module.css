@@ -1,5 +1,6 @@
 .cardList {
   display: flex;
+  height: 100%;
   flex-direction: column;
   padding-bottom: 30px;
 }
@@ -62,6 +63,8 @@
 .objetContainer img {
   margin-top: 20px;
   width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
 }
 
 .objetContainer div {
