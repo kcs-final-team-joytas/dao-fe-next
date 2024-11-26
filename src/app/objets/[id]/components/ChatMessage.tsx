@@ -36,7 +36,13 @@ export function ChatMessage({
       </div>
     ) : (
       <div className={styles.chat} ref={innerRef}>
-        <Image src={profileImg} alt='profile' className={styles.profileImg} />
+        <Image
+          width={30}
+          height={30}
+          src={profileImg}
+          alt='profile'
+          className={styles.profileImg}
+        />
         <div className={styles.chatContents}>
           <span className={styles.userName}>{userName}</span>
           <div className={styles.contentsAndDatetime}>
@@ -50,7 +56,13 @@ export function ChatMessage({
     )
   ) : (
     <div className={styles.chat} style={{ gap: 0 }}>
-      <Image src={profileImg} alt='profile' className={styles.profileImg} />
+      <Image
+        width={30}
+        height={30}
+        src={profileImg}
+        alt='profile'
+        className={styles.profileImg}
+      />
       <div className={styles.chatContents} style={{ marginLeft: '5px' }}>
         <span className={styles.userName} style={{ fontSize: '13px' }}>
           {userName}
