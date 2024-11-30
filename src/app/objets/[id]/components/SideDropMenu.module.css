@@ -1,0 +1,25 @@
+.menuIcon {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.menuIcon:hover {
+  opacity: 1;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  background-color: black;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 1000;
+}

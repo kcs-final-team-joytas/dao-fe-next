@@ -3,17 +3,12 @@
 import Layout from '@components/Layout'
 import styles from './layout.module.css'
 import { useRouter, usePathname } from 'next/navigation'
-import useUserStore from '@store/userStore'
 import { useRef, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { extractYearMonthDate } from '@utils/formatDatetime'
-import { APIs, URL } from '@/static'
-import menu from '@images/menu.webp'
-import Image from 'next/image'
-import leaveImage from '@images/leave.webp'
+import { APIs } from '@/static'
 import { ObjetContext } from '@/types/objetContext'
-import { DeleteObjetModal } from '@/components/modal/Modal'
-import { ObjetDrop } from './components/ObjetDrop'
+import SideDropMenu from './components/SideDropMenu'
 
 export interface Objet {
   objet_id: number
@@ -36,13 +31,9 @@ interface LayoutProps {
 
 export default function ObjetLayout({ params, children }: LayoutProps) {
   const router = useRouter()
-  const id = params.id
-  const myUserId = useUserStore((state) => state.userId)
+  const id = Number(params.id)
 
   const path = usePathname()
-  const isObjetDetail = path.includes('objet')
-  const isChatting = path.includes('chatting')
-  const isCalling = path.includes('call')
   const isUpdate = path.includes('update')
 
   const [isDropVisible, setIsDropVisible] = useState(false)
@@ -100,57 +91,6 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
     }
   }
 
-  const deleteObjet = async () => {
-    try {
-      setIsDeleteClick(true)
-      const response = await fetch(`${APIs.objet}/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        credentials: 'include',
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to delete objet')
-      }
-
-      toast.success('오브제 삭제 성공 🪐')
-      router.push(`/lounge/${objetData?.lounge_id}`)
-    } catch {
-      toast.error('오브제 삭제 실패 😭')
-    } finally {
-      setIsDeleteModalVisible(false)
-      setIsDeleteClick(false)
-    }
-  }
-
-  const handleDeleteObjet = () => {
-    deleteObjet()
-  }
-
-  const handleLeaveChat = () => {
-    router.push(`${URL.objet}/${id}`)
-  }
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropRef.current && !dropRef.current.contains(event.target as Node)) {
-        setIsDropVisible(false)
-      }
-    }
-
-    if (isDropVisible) {
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isDropVisible])
-
   useEffect(() => {
     fetchObjetData()
     fetchCallingPeople()
@@ -182,53 +122,16 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
             </div>
           </div>
           <div className={styles.rightContainer}>
-            {isObjetDetail &&
-            myUserId === objetData?.owner?.user_id &&
-            !isChatting &&
-            !isCalling ? (
-              <>
-                <Image
-                  className={styles.menuIcon}
-                  src={menu}
-                  alt='menu'
-                  onClick={() => setIsDropVisible(!isDropVisible)}
-                />
-                {isDropVisible && (
-                  <div ref={dropRef} onClick={(e) => e.stopPropagation()}>
-                    <ObjetDrop
-                      onClickUpdate={() =>
-                        router.push(`${URL.objet}/${id}/update`)
-                      }
-                      onClickDelete={() => {
-                        setIsDeleteModalVisible(true)
-                        setIsDropVisible(false)
-                      }}
-                    />
-                  </div>
-                )}
-              </>
-            ) : isChatting || isCalling ? (
-              <Image
-                alt='퇴장'
-                className='leave'
-                src={leaveImage}
-                onClick={handleLeaveChat}
-              />
-            ) : null}
+            <SideDropMenu
+              id={id}
+              ownerId={objetData?.owner.user_id}
+              loungeId={objetData?.lounge_id}
+            />
           </div>
         </div>
         <ObjetContext.Provider value={{ objetData, callingPeople }}>
           {children}
         </ObjetContext.Provider>
-
-        {isDeleteModalVisible && (
-          <DeleteObjetModal
-            isClick={isDeleteClick}
-            isOpen={isDeleteModalVisible}
-            onClose={() => setIsDeleteModalVisible(false)}
-            handleDelete={handleDeleteObjet}
-          />
-        )}
       </div>
     </Layout>
   )

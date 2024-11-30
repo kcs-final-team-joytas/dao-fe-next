@@ -57,22 +57,3 @@
 .menuIcon:hover {
   opacity: 1;
 }
-
-.dropdown {
-  position: absolute;
-  top: 40px;
-  right: 10px;
-  background-color: black;
-  border: 1px solid gray;
-  border-radius: 10px;
-  padding: 10px;
-  z-index: 1000;
-}
-
-.modelBackDrop {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  z-index: 5;
-}
