@@ -36,11 +36,7 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
   const path = usePathname()
   const isUpdate = path.includes('update')
 
-  const [isDropVisible, setIsDropVisible] = useState(false)
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
-  const [isDeleteClick, setIsDeleteClick] = useState(false)
   const [callingPeople, setCallingPeople] = useState(0)
-  const dropRef = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [objetData, setObjetData] = useState<Objet>()
 
@@ -106,7 +102,6 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
   return (
     <Layout>
-      {isDeleteModalVisible && <div className={styles.modelBackDrop} />}
       <div className={styles.container}>
         <div className={styles.topContainer}>
           <div className={styles.leftContainer}>

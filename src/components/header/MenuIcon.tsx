@@ -1,5 +1,3 @@
-'use client'
-
 import { Squash as Hamburger } from 'hamburger-react'
 import styles from './MenuIcon.module.css'
 import { Dispatch, SetStateAction } from 'react'

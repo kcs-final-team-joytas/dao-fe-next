@@ -48,7 +48,13 @@ export default function ProfileImageUploader({
       </div>
       <div className={styles.imageContainer}>
         {profileUrl ? (
-          <Image className={styles.profile} alt='profile' src={profileUrl} />
+          <Image
+            width={165}
+            height={165}
+            className={styles.profile}
+            alt='profile'
+            src={profileUrl}
+          />
         ) : (
           <div className={styles.noProfile} />
         )}

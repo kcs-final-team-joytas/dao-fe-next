@@ -1,7 +1,7 @@
-import { useRouter } from 'next/navigation'
 import { URL } from '@/static'
 import styles from './LoungeDrop.module.css'
 import { useRef, useEffect } from 'react'
+import Link from 'next/link'
 
 export function LoungeDrop({
   id,
@@ -18,13 +18,7 @@ export function LoungeDrop({
   setIsDeleteModalVisible: (state: boolean) => void
   setIsWithdrawModalVisible: (state: boolean) => void
 }) {
-  const router = useRouter()
-
   const dropRef = useRef<HTMLDivElement>(null)
-
-  const handleClickObjetCreate = () => {
-    router.push(URL.newObjet)
-  }
 
   const handleClickDeleteButton = () => {
     setIsDeleteModalVisible(true)
@@ -54,15 +48,12 @@ export function LoungeDrop({
 
   return (
     <div className={styles.container} ref={dropRef}>
-      <button
-        className={styles.tab}
-        onClick={() => router.push(`${URL.lounge}/${id}/invite`)}
-      >
+      <Link className={styles.tab} href={`${URL.lounge}/${id}/invite`}>
         유저 초대
-      </button>
-      <button className={styles.tab} onClick={handleClickObjetCreate}>
+      </Link>
+      <Link className={styles.tab} href={URL.newObjet}>
         오브제 생성
-      </button>
+      </Link>
       {isOwner ? (
         <button className={styles.tab} onClick={handleClickDeleteButton}>
           라운지 삭제

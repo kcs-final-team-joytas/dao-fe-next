@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { URL } from '@/static'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
+import Link from 'next/link'
 
 export default function ObjetCall({ params }: { params: { id: number } }) {
   const router = useRouter()
@@ -40,12 +41,9 @@ export default function ObjetCall({ params }: { params: { id: number } }) {
         <button className={styles.micButton} onClick={() => setMuted(!muted)}>
           <Image alt='' className={styles.icon} src={muted ? mute : unmute} />
         </button>
-        <button
-          className={styles.callButton}
-          onClick={() => router.push(`${URL.objet}/${objetId}`)}
-        >
+        <Link className={styles.callButton} href={`${URL.objet}/${objetId}`}>
           <Image alt='' className={styles.icon} src={quitCall} />
-        </button>
+        </Link>
       </div>
     </>
   )
