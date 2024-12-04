@@ -8,6 +8,7 @@ import rightCircle from '@images/rightCircle.webp'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface ObjetProps {
   objet_id: number
@@ -127,10 +128,10 @@ function Objet({
   const router = useRouter()
 
   return (
-    <div
+    <Link
       className={styles.objetContainer}
       id={id}
-      onClick={() => router.push(`${URL.objet}/${objetId}`)}
+      href={`${URL.objet}/${objetId}`}
     >
       <Image
         src={image}
@@ -148,6 +149,6 @@ function Objet({
             : description}
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

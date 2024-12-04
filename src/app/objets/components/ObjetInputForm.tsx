@@ -18,6 +18,7 @@ import {
 } from '@utils/validation'
 import dynamic from 'next/dynamic'
 import styles from './ObjetInputForm.module.css'
+import Link from 'next/link'
 
 const LoadingLottie = dynamic(
   () => import('@components/lotties/LoadingLottie'),
@@ -503,12 +504,12 @@ export default function ObjetInfoForm({
           </button>
         ) : (
           <>
-            <button
+            <Link
               className={styles.generateButton}
-              onClick={() => router.push(`${URL.objet}/${objetId}`)}
+              href={`${URL.objet}/${objetId}`}
             >
               취소하기
-            </button>
+            </Link>
             <button
               className={styles.generateButton}
               disabled={isClick}

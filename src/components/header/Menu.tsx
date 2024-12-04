@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { InquiryModal } from '@components/modal/Modal'
 import { validateEmail } from '@utils/validation'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const logoutRequest = async () => {
   const response = await fetch(APIs.logout, {
@@ -116,19 +117,15 @@ export default function Menu() {
           </div>
         </div>
         <div className={styles.categoryList}>
-          <button
-            className={styles.category}
-            onClick={() => router.push(URL.modifyProfile)}
-          >
+          <Link href={URL.modifyProfile} className={styles.category}>
             프로필 설정
-          </button>
+          </Link>
           <button
             className={styles.category}
             onClick={() => setIsInquiryOpen(true)}
           >
             1:1 문의하기
           </button>
-
           <button
             className={styles.category}
             disabled={isLogoutClick || isLoadingLogout}

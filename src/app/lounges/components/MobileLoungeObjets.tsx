@@ -6,6 +6,7 @@ import { extractYearMonthDate2 } from '@/utils/formatDatetime'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const NoDataLottie = dynamic(() => import('@components/lotties/NoDataLottie'), {
   ssr: false,
@@ -46,10 +47,10 @@ export default function MobileLoungeObjets({
   return (
     <div className={styles.cardList}>
       {objets.map((objet, index) => (
-        <div
+        <Link
+          href={`${URL.objet}/${objet.objet_id}`}
           key={objet.objet_id}
           className={styles.cardContainer}
-          onClick={() => router.push(`${URL.objet}/${objet.objet_id}`)}
         >
           <div className={styles.topContainer}>
             <div className={styles.user}>
@@ -75,7 +76,7 @@ export default function MobileLoungeObjets({
             <div>{objet.name}</div>
           </div>
           {index !== objets.length - 1 && <div className={styles.line} />}
-        </div>
+        </Link>
       ))}
     </div>
   )
