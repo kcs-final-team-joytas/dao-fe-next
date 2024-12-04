@@ -1,0 +1,26 @@
+.mention textarea {
+  height: 100%;
+  color: rgb(143, 143, 143);
+}
+
+.mention textarea::placeholder {
+  padding: 3px 0 0;
+  color: rgb(112, 112, 112);
+}
+
+.tagWrapper {
+  display: flex;
+  margin-top: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 230px;
+  align-items: center;
+  height: 25px;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .tagWrapper {
+    width: 400px;
+  }
+}
