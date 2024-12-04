@@ -1,24 +1,16 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputItem from './InputItem'
-import { Tag, Mentions } from 'antd'
-import { CloseCircleOutlined } from '@ant-design/icons'
-import type { MentionsProps } from 'antd'
-import { OptionProps } from 'antd/es/mentions'
 import { APIs, URL } from '@/static'
 import { useRouter } from 'next/navigation'
 import useUserStore from '@store/userStore'
 import { toast } from 'react-toastify'
-import Image from 'next/image'
 import { ObjetInfoFormProps, SharedMembersProps } from '@/types/objetProps'
 import { uploadImage } from '@/utils/imageUtil'
-import {
-  validateDescription,
-  validateImage,
-  validateName,
-} from '@utils/validation'
+import { validateDescription, validateName } from '@utils/validation'
 import dynamic from 'next/dynamic'
-import styles from './ObjetInputForm.module.css'
-import Link from 'next/link'
+import ObjetInputMention from './ObjetInputMention'
+import ObjetInputImage from './ObjetInputImage'
+import ObjetInputButton from './ObjetInputButton'
 
 const LoadingLottie = dynamic(
   () => import('@components/lotties/LoadingLottie'),
@@ -38,9 +30,9 @@ export default function ObjetInfoForm({
 
   const userId = useUserStore((state) => state.userId)
 
-  const objetId = path === 'create' ? 0 : updateObjetId
+  const objetId = path === 'create' ? 0 : Number(updateObjetId)
   const [loungeId, setLoungeId] = useState(
-    path === 'create' ? localStorage.getItem('loungeId') : 0
+    path === 'create' ? Number(localStorage.getItem('loungeId')) : 0
   )
   const [userList, setUserList] = useState<SharedMembersProps[]>([])
 
@@ -91,87 +83,6 @@ export default function ObjetInfoForm({
     }
   }, [objetInfo, userId, userList.length])
 
-  useEffect(() => {
-    if (userList.length === 0) {
-      // 전체 멤버 선택했던 경우
-      setIsAllSelected(true)
-    } else if (sharedMembers.length < userList.length) {
-      setIsAllSelected(false)
-    }
-  }, [sharedMembers, userList])
-
-  const fetchUsers = useCallback(
-    async (searchValue: string) => {
-      try {
-        const response = await fetch(
-          `${APIs.loungeList}/${loungeId}/search?nickname=${encodeURIComponent(
-            searchValue
-          )}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-          }
-        )
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user list')
-        }
-
-        const data = await response.json()
-        setUserList(data.data)
-      } catch {
-        setUserList([])
-      }
-    },
-    [loungeId]
-  )
-
-  const onMentionSearch: MentionsProps['onSearch'] = (_, newPrefix) => {
-    if (newPrefix) {
-      return userList
-        .filter((user) => user.nickname.includes(newPrefix))
-        .filter(
-          (user) =>
-            user.user_id !== userId &&
-            !sharedMembers.some((member) => member.user_id === user.user_id)
-        )
-    }
-  }
-
-  const onMentionChange = async (value: string) => {
-    setMentionValue(value)
-    setIsMentionChanged(true)
-    if (value.includes('@')) {
-      fetchUsers(value.slice(1))
-    }
-  }
-
-  const onMentionSelect = (option: OptionProps) => {
-    if (option.key === 'all') {
-      setSharedMembers(userList.filter((user) => user.user_id !== userId))
-      setIsAllSelected(true)
-    } else {
-      setSharedMembers((prevMembers) => [
-        ...prevMembers,
-        { user_id: Number(option.key), nickname: option.value as string },
-      ])
-    }
-    setMentionValue('')
-  }
-
-  const handleTagClose = (removedTag: string) => {
-    setSharedMembers((prevMembers) =>
-      prevMembers.filter((member) => member.nickname !== removedTag)
-    )
-    if (originalSharer !== sharedMembers) {
-      setIsMentionChanged(true)
-    }
-  }
-
   const handleInputChange = (field: string, value: string) => {
     switch (field) {
       case 'objetName':
@@ -194,35 +105,6 @@ export default function ObjetInfoForm({
         break
       default:
         break
-    }
-  }
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-
-    if (file && validateImage(file).isValid) {
-      setImage(file)
-
-      const reader = new FileReader()
-      reader.onload = (data) => {
-        if (data.target?.result) {
-          setImageUrl(data.target.result as string)
-        }
-      }
-      reader.readAsDataURL(file)
-
-      setImageValid(true)
-      setImageErrorMessage('')
-      setIsImageChanged(true)
-    } else if (file) {
-      setImageErrorMessage(validateImage(file).errorMessage)
-    }
-  }
-
-  const handleUploadClick = () => {
-    const fileInput = document.getElementById('objetImage')
-    if (fileInput) {
-      fileInput.click()
     }
   }
 
@@ -355,65 +237,24 @@ export default function ObjetInfoForm({
     }
   }
 
-  const filteredUsers = isAllSelected
-    ? []
-    : [
-        { value: 'everyone', key: 'all', label: 'everyone' },
-        ...userList
-          .filter(
-            (user) =>
-              user.user_id !== userId &&
-              !sharedMembers.some((member) => member.user_id === user.user_id)
-          )
-          .map((user) => ({
-            value: user.nickname,
-            key: user.user_id.toString(),
-            label: user.nickname,
-          })),
-      ]
-
   if (isLoading) {
     return <LoadingLottie />
   }
 
   return (
     <>
-      <InputItem
-        label='오브제 멤버'
-        className='member'
-        input={
-          <>
-            <Mentions
-              placeholder='@을 입력해주세요.'
-              className={styles.mention}
-              onSearch={onMentionSearch}
-              onSelect={(option) => onMentionSelect(option as OptionProps)}
-              onChange={(value) => onMentionChange(value)}
-              value={mentionValue}
-              style={{
-                minWidth: '50px',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor: 'transparent',
-                color: 'white',
-              }}
-              options={filteredUsers}
-            />
-            <div className={styles.tagWrapper}>
-              {sharedMembers.map((member) => (
-                <Tag
-                  key={member.user_id}
-                  closeIcon={<CloseCircleOutlined />}
-                  color='white'
-                  style={{ color: 'black', alignItems: 'center' }}
-                  onClose={() => handleTagClose(member.nickname)}
-                >
-                  {member.nickname}
-                </Tag>
-              ))}
-            </div>
-          </>
-        }
+      <ObjetInputMention
+        mentionValue={mentionValue}
+        isAllSelected={isAllSelected}
+        userList={userList}
+        sharedMembers={sharedMembers}
+        loungeId={loungeId}
+        originalSharer={originalSharer}
+        setUserList={setUserList}
+        setSharedMembers={setSharedMembers}
+        setIsAllSelected={setIsAllSelected}
+        setMentionValue={setMentionValue}
+        setIsMentionChanged={setIsMentionChanged}
       />
       <InputItem
         label='오브제 이름'
@@ -436,7 +277,6 @@ export default function ObjetInfoForm({
         input={
           <>
             <textarea
-              className={styles.descriptionInput}
               value={description}
               placeholder='오브제 설명을 입력해주세요.'
               onChange={(e) =>
@@ -449,77 +289,21 @@ export default function ObjetInfoForm({
         }
         helperText={descriptionErrorMessage}
       />
-      <InputItem
-        label='오브제 이미지'
-        img={'true'}
-        input={
-          <>
-            <label className={styles.imageInputLabel} htmlFor='objetImage'>
-              {imageUrl ? (
-                <>
-                  <Image
-                    className={styles.imageInput}
-                    width={120}
-                    height={120}
-                    src={imageUrl}
-                    alt='profile'
-                  />
-                  <div className={styles.imageOverlay}>
-                    <span>변경</span>
-                  </div>
-                </>
-              ) : (
-                <button
-                  className={styles.uploadButton}
-                  type='button'
-                  onClick={handleUploadClick}
-                >
-                  이미지 업로드
-                </button>
-              )}
-            </label>
-            <input
-              type='file'
-              accept='.jpeg, .jpg, .png, .webp'
-              id='objetImage'
-              onChange={handleImageChange}
-              style={{ display: 'none' }}
-            />
-          </>
-        }
-        helperText={imageErrorMessage}
+      <ObjetInputImage
+        imageUrl={imageUrl}
+        setImage={setImage}
+        setImageUrl={setImageUrl}
+        setImageValid={setImageValid}
+        setImageErrorMessage={setImageErrorMessage}
+        setIsImageChanged={setIsImageChanged}
       />
 
-      <div
-        className={styles.chooseContainer}
-        style={{ position: 'absolute', bottom: '0' }}
-      >
-        {path === 'create' ? (
-          <button
-            className={styles.generateButton}
-            disabled={isClick}
-            onClick={handleSubmitForm}
-          >
-            생성하기
-          </button>
-        ) : (
-          <>
-            <Link
-              className={styles.generateButton}
-              href={`${URL.objet}/${objetId}`}
-            >
-              취소하기
-            </Link>
-            <button
-              className={styles.generateButton}
-              disabled={isClick}
-              onClick={handleSubmitForm}
-            >
-              수정하기
-            </button>
-          </>
-        )}
-      </div>
+      <ObjetInputButton
+        path={path}
+        isClick={isClick}
+        objetId={objetId}
+        handleSubmitForm={handleSubmitForm}
+      />
     </>
   )
 }
