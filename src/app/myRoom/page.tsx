@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import styles from './page.module.css'
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
 interface MyRoomResponse {
   my_room_id: number
@@ -24,13 +25,19 @@ interface MyRoomResponse {
   my_room_name: string
 }
 
-const fetchMyRoomInfo = async (userId: number) => {
+const fetchMyRoomInfo = async (userId: number, router: AppRouterInstance) => {
   const response = await fetch(`${APIs.myRoom}?user_id=${userId}`, {
     credentials: 'include',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     },
   })
+
+  if (!response.ok) {
+    toast.info('마이룸이 존재하지 않습니다. 생성해주세요! 🪐')
+    router.push(URL.createMyRoom)
+    throw new Error('Failed to fetch my room info')
+  }
 
   const responseData = await response.json()
   return responseData.data
@@ -67,7 +74,7 @@ export default function MyRoom() {
 
   const { data: myRoomData, isLoading } = useQuery<MyRoomResponse>(
     ['myRoom', userId],
-    () => fetchMyRoomInfo(userId),
+    () => fetchMyRoomInfo(userId, router),
     {
       retry: 1,
       onSuccess: (data) => {

@@ -87,7 +87,7 @@ export default function CreateMyRoom() {
         <div className={styles.globalSubTitle}>
           마이룸 별명은 생성 이후 수정할 수 있습니다.
         </div>
-        <div className={styles.MyRoomPreviewWrapper}>
+        <div className={styles.myRoomPreviewWrapper}>
           <Canvas
             frameloop='demand'
             camera={{ position: selectedModel?.camera }}
@@ -101,9 +101,9 @@ export default function CreateMyRoom() {
           </Canvas>
         </div>
 
-        <div className={styles.MyRoomList}>
+        <div className={styles.myRoomList}>
           {modelList.map((model) => (
-            <Image className={styles.MyRoomThumbnail}
+            <Image className={styles.myRoomThumbnail}
                    key={model.type}
                    src={model.thumbnail}
                    alt='thumbnail'
@@ -111,8 +111,8 @@ export default function CreateMyRoom() {
           ))}
         </div>
 
-        <div className={styles.BtnContainer}>
-          <button className={styles.CreateBtn} onClick={handleCreate}>확인</button>
+        <div className={styles.btnContainer}>
+          <button className={styles.createBtn} onClick={handleCreate}>확인</button>
         </div>
       </div>
     </Layout>

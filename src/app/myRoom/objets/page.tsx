@@ -5,13 +5,18 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import { useState } from 'react'
 import { APIs } from '@/static'
 import Layout from '@components/Layout'
-import LoadingLottie from '@components/lotties/LoadingLottie'
 import MobileLoungeObjets from '@/app/lounges/components/MobileLoungeObjets'
 import LoungeObjets from '@/app/lounges/components/LoungeObjets'
 import Image from 'next/image'
 import moreImg from '@images/more.webp'
 import { LoungeListModal } from '@components/modal/Modal'
 import { useQuery } from 'react-query'
+import dynamic from 'next/dynamic'
+
+const LoadingLottie = dynamic(
+  () => import('@components/lotties/LoadingLottie'),
+  { ssr: false }
+)
 
 interface Lounge {
   lounge_id: number
