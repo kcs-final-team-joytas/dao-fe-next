@@ -130,7 +130,7 @@ export default function Lounge({ params }: LayoutProps) {
 
   return (
     <Layout>
-      <div className={styles.globalContainer32}>
+      <div className={styles.container}>
         <div className={styles.topContainer}>
           <div className={styles.loungeTitle}>
             {isLoading ? (
@@ -164,7 +164,7 @@ export default function Lounge({ params }: LayoutProps) {
             )}
           </div>
         </div>
-        <div className={styles.globalTitle}>
+        <div className={styles.subTitle}>
           친구를 초대하고 오브제로 추억을 공유해보세요!
         </div>
         <div className={styles.objets}>

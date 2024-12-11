@@ -1,5 +1,13 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  color: white;
+}
+
 .topContainer {
-  padding-top: 50px;
+  padding-top: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,23 +41,12 @@
   display: flex;
   margin-top: 30px;
   width: 100%;
-  height: 70%;
+  height: calc(100% - 150px);
   align-items: center;
 }
 
-.globalTitle {
-  display: flex;
-  align-items: center;
+.subTitle {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
-  width: 100%;
-}
-
-.globalContainer32 {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 0.6;
-  padding: 0 32px;
-  box-sizing: border-box;
 }
