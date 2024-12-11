@@ -7,7 +7,7 @@ import { Canvas } from '@react-three/fiber'
 import editIcon from '@images/edit.webp'
 import closeIcon from '@images/close.webp'
 import checkIcon from '@images/check.webp'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { modelList, MyRoomModel, roomConfigs  } from '@components/models/MyRoomModels'
 import { APIs, URL } from '@/static'
 import LoadingLottie from '@components/lotties/LoadingLottie'
@@ -16,86 +16,94 @@ import { OrbitControls } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
 import styles from './page.module.css'
 import Image from 'next/image'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+
+interface MyRoomResponse {
+  my_room_id: number
+  type: string
+  my_room_name: string
+}
+
+const fetchMyRoomInfo = async (userId: number) => {
+  const response = await fetch(`${APIs.myRoom}?user_id=${userId}`, {
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+  })
+
+  const responseData = await response.json()
+  return responseData.data
+}
+
+const updateMyRoomName = async (roomId: number, newName: string) => {
+  const response = await fetch(`${APIs.myRoom}/${roomId}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    body: JSON.stringify({ room_name: newName }),
+  })
+
+  const responseData = await response.json()
+  return responseData.data
+}
 
 export default function MyRoom() {
   const [myRoomName, setMyRoomName] = useState('')
   const [myRoomNameForChange, setMyRoomNameForChange] = useState('')
-  const [myRoomId, setMyRoomId] = useState<number>(0)
   const [myRoomModel, setMyRoomModel] = useState<MyRoomModel>(modelList[0])
-  const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const userId = useUserStore((state) => state.userId)
-
-  const fetchMyRoomInfo = async () => {
-    try {
-      const response = await fetch(`${APIs.myRoom}?user_id=${userId}`, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      })
-
-      const responseData = await response.json()
-
-      if (!responseData.data) {
-        toast.error('마이룸 정보 조회 실패 😭')
-        router.push(URL.createMyRoom)
-      }
-
-      console.log('마이룸 정보 조회 응답: ', responseData.data)
-
-      setMyRoomName(responseData.data.my_room_name)
-      setMyRoomNameForChange(responseData.data.my_room_name)
-      setMyRoomId(responseData.data.my_room_id)
-      setMyRoomModel(modelList[responseData.data.type.split('R000')[1] - 1])
-    } catch (error) {
-      console.error('마이룸 정보 조회 오류: ', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleSubmit = async () => {
-    if (myRoomNameForChange === myRoomName) {
-      toast.info('변경된 사항이 없습니다. 🤔')
-      return
-    }
-
-    try {
-      const response = await fetch(`${APIs.myRoom}/${myRoomId}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        body: JSON.stringify({ room_name: myRoomNameForChange }),
-      })
-
-      if (!response.ok) {
-        toast.info('마이룸 이름 수정 실패 😭')
-        return;
-      }
-
-      toast.success('마이룸 이름 수정 성공 🪐')
-      setMyRoomName(myRoomNameForChange)
-    } catch (error) {
-      console.error('마이룸 이름 수정 오류: ', error)
-    } finally {
-      setIsEditing(false)
-    }
-  }
-
 
   const handleNavigate = () => {
     router.push(URL.myRoomObjet)
   }
 
-  useEffect(() => {
-    fetchMyRoomInfo()
-  }, [])
+  const { data: myRoomData, isLoading } = useQuery<MyRoomResponse>(
+    ['myRoom', userId],
+    () => fetchMyRoomInfo(userId),
+    {
+      retry: 1,
+      onSuccess: (data) => {
+        setMyRoomName(data.my_room_name)
+        setMyRoomNameForChange(data.my_room_name)
+        setMyRoomModel(modelList[Number(data.type.split('R000')[1]) - 1])
+      },
+      onError: () => {
+        toast.error('마이룸 정보 조회 실패 😭')
+      },
+    }
+  )
+
+  const mutation = useMutation({
+    mutationFn: ({ roomId, newName }: { roomId: number; newName: string }) =>
+      updateMyRoomName(roomId, newName),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['myRoom', userId])
+      toast.success('마이룸 이름 수정 성공 🪐')
+    },
+    onError: () => {
+      toast.error('마이룸 이름 수정 실패 😭')
+    },
+  })
+
+  const handleSubmit = async () => {
+    const roomId = myRoomData?.my_room_id
+
+    if (roomId && myRoomNameForChange !== myRoomData.my_room_name) {
+      mutation.mutate({ roomId, newName: myRoomNameForChange })
+      setIsEditing(false)
+    } else {
+      toast.info('변경된 사항이 없습니다. 🤔')
+      setIsEditing(false)
+    }
+  }
 
   return (
     <Layout>
