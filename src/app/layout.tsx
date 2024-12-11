@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
       <ReactQueryProvider>
         <ToastProvider />
-          {children}
+        {children}
       </ReactQueryProvider>
       </body>
     </html>
