@@ -11,6 +11,30 @@ import styles from './page.module.css'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Image from 'next/image'
+import { useMutation, useQuery } from 'react-query'
+
+const checkIfGenerated = async (userId: number) => {
+  return await fetch(`${APIs.myRoom}?user_id=${userId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+}
+
+const createMyRoom = async (selectedModelType: string) => {
+  return await fetch(APIs.myRoom, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    body: JSON.stringify({ type: selectedModelType }),
+  })
+}
 
 export default function CreateMyRoom() {
   const [selectedModelType, setSelectedModelType] = useState('R0001')
@@ -18,50 +42,11 @@ export default function CreateMyRoom() {
   const userId = useUserStore((state) => state.userId)
   const router = useRouter()
 
-  const fetchMyRoomInfo = async (userId: number) => {
-    try {
-      return await fetch(`${APIs.myRoom}?user_id=${userId}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-    } catch (error) {
-      console.error('마이룸 정보 조회 오류: ', error)
-    }
-  }
-
-  const handleCreate = async () => {
-    try {
-      const response = await fetch(APIs.myRoom, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        body: JSON.stringify({ type: selectedModelType }),
-      })
-
-      if (!response.ok) {
-        toast.error('마이룸 생성 실패 😭')
-        return
-      }
-
-      toast.success('마이룸 생성 성공 🪐')
-      router.push(URL.myRoom)
-    } catch (error) {
-      console.error('마이룸 생성 오류: ', error)
-    }
-  }
-
-  useEffect(() => {
-    // 마이룸 생성 여부를 체크
-    const checkIfGenerated = async() => {
-      const res = await fetchMyRoomInfo(userId)
-      if (res && res.status === 200) {
+  // 마이룸 생성 여부 체크
+  useQuery(['checkMyRoom', userId], () => checkIfGenerated(userId), {
+    retry: 1,
+    onSuccess: (response) => {
+      if (response.status === 200) {
         toast.info(
           <>
             이미 마이룸을 생성하셨습니다. <br /> 마이룸으로 이동합니다. 🪐
@@ -69,15 +54,31 @@ export default function CreateMyRoom() {
         )
         router.push(URL.myRoom)
       }
-    }
-    checkIfGenerated()
-  }, [])
+    },
+    onError: (error) => {
+      console.error('마이룸 정보 조회 오류: ', error)
+    },
+  })
+
+  const mutation = useMutation(() => createMyRoom(selectedModelType), {
+    onSuccess: () => {
+      toast.success('마이룸 생성 성공 🪐')
+      router.push(URL.myRoom)
+    },
+    onError: () => {
+      toast.error('마이룸 생성 실패 😭')
+    },
+  })
 
   useEffect(() => {
     setSelectedModel(
       modelList.find((model) => model.type === selectedModelType)
     )
   }, [selectedModelType])
+
+  const handleCreate = () => {
+    mutation.mutate()
+  }
 
   return (
     <Layout>
