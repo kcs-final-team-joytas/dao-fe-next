@@ -1,0 +1,6 @@
+.childrenDiv {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    height: calc(100% - 110px);
+}
