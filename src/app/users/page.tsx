@@ -75,7 +75,7 @@ export default function Page() {
       <div className={styles.fullContainer}>
         <div className={styles.container}>
           <div className={`${styles.searchTitle} ${styles['users']}`}>
-            콕 찌르기는 3시간에 1번만 가능합니다 😎
+            유저를 검색한 후 콕 찔러보세요! 😎
           </div>
           <input
             ref={searchInputRef}
