@@ -1,0 +1,80 @@
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+
+.topContainer {
+    padding: 70px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin: 5px 0 5px 10px;
+    cursor: pointer;
+    transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.icon:hover {
+    opacity: 100%;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.iconContainer {
+    display: flex;
+    gap: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+
+.objets {
+    display: flex;
+    margin-top: 30px;
+    width: 100%;
+    height: calc(100% - 150px);
+    align-items: center;
+}
+
+.modalBackDrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 5;
+}
