@@ -103,19 +103,22 @@ export default function CreateMyRoom() {
 
         <div className={styles.myRoomList}>
           {modelList.map((model) => (
-            <Image className={styles.myRoomThumbnail}
-                   key={model.type}
-                   src={model.thumbnail}
-                   alt='thumbnail'
-                   onClick={() => setSelectedModelType(model.type)} />
+            <Image
+              className={styles.myRoomThumbnail}
+              key={model.type}
+              src={model.thumbnail}
+              alt='thumbnail'
+              onClick={() => setSelectedModelType(model.type)}
+            />
           ))}
         </div>
 
         <div className={styles.btnContainer}>
-          <button className={styles.createBtn} onClick={handleCreate}>확인</button>
+          <button className={styles.createBtn} onClick={handleCreate}>
+            확인
+          </button>
         </div>
       </div>
     </Layout>
   )
 }
-

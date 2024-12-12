@@ -8,7 +8,11 @@ import editIcon from '@images/edit.webp'
 import closeIcon from '@images/close.webp'
 import checkIcon from '@images/check.webp'
 import { useState } from 'react'
-import { modelList, MyRoomModel, roomConfigs  } from '@components/models/MyRoomModels'
+import {
+  modelList,
+  MyRoomModel,
+  roomConfigs,
+} from '@components/models/MyRoomModels'
 import { APIs, URL } from '@/static'
 import LoadingLottie from '@components/lotties/LoadingLottie'
 import useUserStore from '@store/userStore'
@@ -118,7 +122,8 @@ export default function MyRoom() {
         <div className={styles.titleWrapper}>
           {isEditing ? (
             <>
-              <input className={styles.myRoomTitleInput}
+              <input
+                className={styles.myRoomTitleInput}
                 value={myRoomNameForChange}
                 onChange={(e) => setMyRoomNameForChange(e.target.value)}
                 placeholder='마이룸 이름을 입력해주세요'
@@ -126,12 +131,14 @@ export default function MyRoom() {
                 maxLength={20}
               />
               <div className={styles.myRoomIconContainer}>
-                <Image className={styles.iconWithBorder}
+                <Image
+                  className={styles.iconWithBorder}
                   src={checkIcon}
                   alt='check'
                   onClick={handleSubmit}
                 />
-                <Image className={styles.iconWithBorder}
+                <Image
+                  className={styles.iconWithBorder}
                   src={closeIcon}
                   alt='close'
                   onClick={() => setIsEditing(false)}
@@ -152,13 +159,13 @@ export default function MyRoom() {
                 />
               ) : (
                 <span className={styles.title}>
-                  {myRoomName &&
-                  myRoomName?.length > 18
+                  {myRoomName && myRoomName?.length > 18
                     ? `${myRoomName.substring(0, 17)}..`
                     : myRoomName}
                 </span>
               )}
-              <Image className={styles.icon}
+              <Image
+                className={styles.icon}
                 src={editIcon}
                 alt='edit'
                 onClick={() => setIsEditing(true)}
