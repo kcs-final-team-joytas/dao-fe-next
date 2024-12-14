@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Layout from '@components/Layout'
 import styles from './page.module.css'
 import { Skeleton } from 'antd'
@@ -16,8 +16,7 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import MobileLoungeObjets from '../components/MobileLoungeObjets'
 import { DeleteLoungeModal, WithDrawLoungeModal } from '@components/modal/Modal'
 import Image from 'next/image'
-import { Objet } from '@/types/modelType'
-import { LoungeProps } from '@/types/loungeType'
+import { useMutation, useQuery } from 'react-query'
 
 const LoadingLottie = dynamic(
   () => import('@components/lotties/LoadingLottie'),
@@ -26,6 +25,88 @@ const LoadingLottie = dynamic(
 
 interface LayoutProps {
   params: { id: string }
+}
+
+const fetchLounge = async (loungeId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(`${APIs.loungeList}/${loungeId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch lounge')
+  }
+
+  const responseData = await response.json()
+  return responseData.data
+}
+
+const fetchLoungeObjets = async (loungeId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(
+    `${APIs.objet}?lounge_id=${loungeId}&is_owner=false`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch lounge objects')
+  }
+
+  const responseData = await response.json()
+  return responseData.data.objets
+}
+
+const deleteLounge = async (loungeId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(`${APIs.loungeList}/${loungeId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete lounge')
+  }
+
+  return response
+}
+
+const withdrawLounge = async (loungeId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(`${APIs.loungeList}/${loungeId}/withdraw`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({}),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to withdraw from lounge')
+  }
+
+  return response
 }
 
 export default function Lounge({ params }: LayoutProps) {
@@ -37,96 +118,55 @@ export default function Lounge({ params }: LayoutProps) {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
   const [isWithdrawModalVisible, setIsWithdrawModalVisible] = useState(false)
   const [isClick, setIsClick] = useState(false)
-  const [loungeData, setLoungeData] = useState<LoungeProps>()
-  const [objets, setObjets] = useState<Objet[]>([])
-  const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    localStorage.setItem('loungeId', String(loungeId))
-  }, [loungeId])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      try {
-        const loungeResponse = await fetch(`${APIs.loungeList}/${loungeId}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-        })
-
-        const objetsResponse = await fetch(
-          `${APIs.objet}?lounge_id=${loungeId}&is_owner=false`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            },
-          }
-        )
-
-        if (loungeResponse.ok && objetsResponse.ok) {
-          const loungeData = await loungeResponse.json()
-          const objetsData = await objetsResponse.json()
-          setLoungeData(loungeData.data)
-          setObjets(objetsData.data.objets)
-        } else {
-          throw new Error('Failed to fetch data')
-        }
-      } catch {
-        toast.error('데이터를 가져오는 데 실패했습니다.')
-      } finally {
-        setIsLoading(false)
-      }
+  const { data: loungeData, isLoading } = useQuery(
+    ['lounge', loungeId],
+    () => fetchLounge(loungeId!),
+    {
+      retry: 1,
+      onError: () => {
+        toast.error('해당 라운지를 찾을 수 없습니다 😅')
+        router.push(`${URL.lounge}`)
+      },
     }
+  )
 
-    fetchData()
-  }, [loungeId])
+  const { data: objets } = useQuery(
+    ['loungeObjet', loungeId],
+    () => fetchLoungeObjets(loungeId!),
+    {
+      retry: 1,
+      onError: () => {
+        toast.error('해당 라운지의 오브제가 없습니다 😅')
+      },
+    }
+  )
 
-  const handleDeleteLounge = async () => {
-    try {
-      const response = await fetch(`${APIs.loungeList}/${loungeId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      })
-
-      if (response.ok) {
-        toast.success('라운지 삭제 성공 😀')
-        router.push(URL.lounge)
-      } else {
-        throw new Error('Failed to delete lounge')
-      }
-    } catch {
+  const deleteLoungeMutation = useMutation(() => deleteLounge(loungeId!), {
+    onSuccess: () => {
+      toast.success('라운지 삭제 성공 😀')
+      router.push(URL.lounge)
+    },
+    onError: () => {
       toast.error('라운지 삭제 실패 😭')
-    } finally {
+    },
+    onSettled: () => {
       setIsClick(false)
-    }
-  }
+    },
+  })
 
-  const handleWithdrawLounge = async () => {
-    try {
-      const response = await fetch(`${APIs.loungeList}/${loungeId}/withdraw`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      })
-
-      if (response.ok) {
-        toast.success('라운지 탈퇴 성공 😀')
-        router.push(URL.lounge)
-      } else {
-        throw new Error('Failed to withdraw from lounge')
-      }
-    } catch {
+  const withdrawLoungeMutation = useMutation(() => withdrawLounge(loungeId!), {
+    onSuccess: () => {
+      toast.success('라운지 탈퇴 성공 😀')
+      router.push(URL.lounge)
+    },
+    onError: () => {
       toast.error('라운지 탈퇴 실패 😭')
-    } finally {
+    },
+    onSettled: () => {
       setIsClick(false)
-    }
-  }
+    },
+  })
 
   return (
     <Layout>
@@ -167,7 +207,10 @@ export default function Lounge({ params }: LayoutProps) {
         <div className={styles.subTitle}>
           친구를 초대하고 오브제로 추억을 공유해보세요!
         </div>
-        <div className={styles.objets}>
+        <div
+          className={styles.objets}
+          style={{ alignItems: `${isMobile && 'flex-start'}` }}
+        >
           {isLoading ? (
             <LoadingLottie />
           ) : isMobile ? (
@@ -180,13 +223,13 @@ export default function Lounge({ params }: LayoutProps) {
       <DeleteLoungeModal
         isOpen={isDeleteModalVisible}
         onClose={() => setIsDeleteModalVisible(false)}
-        handleDelete={handleDeleteLounge}
+        handleDelete={deleteLoungeMutation.mutate}
         isClick={isClick}
       />
       <WithDrawLoungeModal
         isOpen={isWithdrawModalVisible}
         onClose={() => setIsWithdrawModalVisible(false)}
-        handleDelete={handleWithdrawLounge}
+        handleDelete={withdrawLoungeMutation.mutate}
         isClick={isClick}
       />
     </Layout>

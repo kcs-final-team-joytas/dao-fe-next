@@ -15,6 +15,7 @@ import Image from 'next/image'
 import left from '@assets/images/left.webp'
 import right from '@assets/images/right.webp'
 import { LoungeProps } from '@/types/loungeType'
+import { useMutation, useQuery } from 'react-query'
 
 const fetchLoungeList = async (): Promise<LoungeProps[]> => {
   const response = await fetch(APIs.loungeList, {
@@ -23,9 +24,31 @@ const fetchLoungeList = async (): Promise<LoungeProps[]> => {
     },
     credentials: 'include',
   })
-  if (!response.ok) throw new Error('Failed to fetch lounge list')
-  const data = await response.json()
-  return data.data
+  if (!response.ok) {
+    throw new Error('Failed to fetch lounge list')
+  }
+
+  const loungeData = await response.json()
+  return loungeData.data
+}
+
+const createLounge = async (loungeName: string, type: string) => {
+  const response = await fetch(APIs.loungeList, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ name: loungeName, type }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to create lounge')
+  }
+
+  const responseData = await response.json()
+  return responseData.data
 }
 
 const CurrentModel = React.memo(({ index }: { index: number }) => {
@@ -44,19 +67,39 @@ export default function NewLounge(): JSX.Element {
   const modelTypes = ['L0001', 'L0002', 'L0003']
   const nickname = useUserStore((state) => state.nickname)
 
+  useQuery('lounges', fetchLoungeList, {
+    retry: 1,
+    onSuccess: (data) => {
+      if (data.length >= 4) {
+        toast.error('라운지 갯수 제한(최대 4개) 🥹')
+        router.push(URL.lounge)
+      }
+    },
+    onError: (error) => {
+      toast.error('라운지 목록 조회 실패')
+      console.error('Failed to fetch lounge list', error)
+    },
+  })
+
+  const createMutation = useMutation(
+    () => createLounge(loungeName, modelTypes[currentModelIndex]),
+    {
+      onSuccess: (data) => {
+        toast.success('라운지 생성 성공 🪐')
+        // queryClient.invalidateQueries('lounges')
+        router.push(`${URL.lounge}/${data.lounge_id}`)
+      },
+      onError: () => {
+        toast.error('라운지 생성 실패 😭')
+      },
+      onSettled: () => {
+        setIsClick(false)
+      },
+    }
+  )
+
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus()
-
-    fetchLoungeList()
-      .then((data) => {
-        if (data.length >= 4) {
-          toast.error('라운지 갯수 제한(최대 4개) 🥹')
-          router.push(URL.lounge)
-        }
-      })
-      .catch(() => {
-        toast.error('라운지 목록 조회 실패')
-      })
   }, [router])
 
   const handleLeftClick = (): void => {
@@ -80,28 +123,7 @@ export default function NewLounge(): JSX.Element {
     const validation = checkLoungeNameValidation(loungeName)
     if (!validation) return
 
-    try {
-      const response = await fetch(APIs.loungeList, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: loungeName,
-          type: modelTypes[currentModelIndex],
-        }),
-      })
-      if (!response.ok) throw new Error('Failed to create lounge')
-      const data = await response.json()
-      toast.success('라운지 생성 성공 🪐')
-      router.push(`${URL.lounge}/${data.data.lounge_id}`)
-    } catch {
-      toast.error('라운지 생성 실패 😭')
-    } finally {
-      setIsClick(false)
-    }
+    createMutation.mutate()
   }
 
   const checkLoungeNameValidation = (name: string): boolean => {
@@ -140,7 +162,7 @@ export default function NewLounge(): JSX.Element {
           <div className={styles.inputContainer}>
             <label className={styles.inputTitle}>
               라운지 이름
-              <span>*</span>
+              <span className={styles.redText}>*</span>
             </label>
             <div className={styles.inputInnerContainer}>
               <input

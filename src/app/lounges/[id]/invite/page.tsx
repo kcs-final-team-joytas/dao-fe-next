@@ -8,6 +8,7 @@ import useUserStore from '@store/userStore'
 import { APIs } from '@/static'
 import dynamic from 'next/dynamic'
 import type { SearchUser } from '@/types/userType'
+import { useQuery } from 'react-query'
 
 const LoadingLottie = dynamic(
   () => import('@components/lotties/LoadingLottie'),
@@ -35,9 +36,7 @@ const fetchSearchUsers = async (nickname: string): Promise<SearchUser[]> => {
 export default function Page() {
   const [searchUser, setSearchUser] = useState('')
   const [debouncedSearchUser, setDebouncedSearchUser] = useState('')
-  const [userList, setUserList] = useState<SearchUser[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const userId = useUserStore((state) => state.userId)
   const searchInputRef = useRef<HTMLInputElement | null>(null)
@@ -58,17 +57,21 @@ export default function Page() {
     }
   }, [searchUser])
 
-  useEffect(() => {
-    if (!debouncedSearchUser) return
-
-    setIsLoading(true)
-    setError(null)
-
-    fetchSearchUsers(debouncedSearchUser)
-      .then((users) => setUserList(users))
-      .catch(() => setError('유저 검색 실패'))
-      .finally(() => setIsLoading(false))
-  }, [debouncedSearchUser])
+  const { data: userList = [], isLoading } = useQuery<SearchUser[]>(
+    ['searchUser', debouncedSearchUser],
+    () => fetchSearchUsers(debouncedSearchUser),
+    {
+      retry: 1,
+      enabled: !!debouncedSearchUser,
+      onSuccess: () => {
+        setErrorMessage(null)
+      },
+      onError: (error) => {
+        setErrorMessage('유저 검색 실패')
+        console.error('유저 검색 실패', error)
+      },
+    }
+  )
 
   return (
     <Layout>
@@ -87,8 +90,8 @@ export default function Page() {
           />
           {isLoading ? (
             <LoadingLottie />
-          ) : error ? (
-            <div>{error}</div>
+          ) : errorMessage ? (
+            <div>{errorMessage}</div>
           ) : (
             <div className={styles.userListContainer}>
               {userList.length === 0 || searchUser === '' ? (
