@@ -28,7 +28,7 @@ export default function LoungeListPage() {
         <div className={styles.globalSubTitle}>
           라운지를 클릭해 입장하거나, 라운지를 생성해보세요!
         </div>
-        <div className={styles.globalWidth}>
+        <div className={styles.loungeListContainer}>
           <Suspense fallback={<LoadingLottie />}>
             <LoungeContainer />
           </Suspense>
