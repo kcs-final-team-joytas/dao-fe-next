@@ -220,7 +220,6 @@ export default function ObjetInfoForm({
       }
 
       const responseData = await response?.json()
-      console.log(response?.status)
       if (response?.status !== 201 && response?.status !== 200) {
         toast.error(`${text} 실패 😭`)
         return
