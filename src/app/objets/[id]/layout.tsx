@@ -3,94 +3,130 @@
 import Layout from '@components/Layout'
 import styles from './layout.module.css'
 import { useRouter, usePathname } from 'next/navigation'
-import { useRef, useState, useEffect } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { extractYearMonthDate } from '@utils/formatDatetime'
-import { APIs } from '@/static'
+import { APIs, URL } from '@/static'
 import { ObjetContext } from '@/types/objetContext'
 import SideDropMenu from './components/SideDropMenu'
+import { useMutation, useQuery } from 'react-query'
+import modalStyles from '@/components/modal/Modal.module.css'
+import { DeleteObjetModal } from '@components/modal/Modal'
+import useUserStore from '@store/userStore'
 
-export interface Objet {
-  objet_id: number
-  lounge_id?: number
-  objet_type: 'O0001' | 'O0002' | 'O0003'
-  name: string
-  description: string
-  created_at: string
-  objet_image: string
-  owner: {
-    nickname: string
-    profile_image: string
-    user_id: number
-  }
-}
 interface LayoutProps {
   params: { id: string }
   children: React.ReactNode
 }
 
+const fetchData = async (objetId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(`${APIs.objet}/${objetId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data')
+  }
+
+  const responseData = await response.json()
+  return responseData.data
+}
+
+const fetchCall = async (objetId: string) => {
+  const accessToken = localStorage.getItem('access_token')
+
+  const response = await fetch(`${APIs.objet}/${objetId}/call/participants`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch call data')
+  }
+
+  const responseData = await response.json()
+  return responseData.data.calling_user_num
+}
+
 export default function ObjetLayout({ params, children }: LayoutProps) {
   const router = useRouter()
-  const id = Number(params.id)
+  const id = params.id
 
   const path = usePathname()
+  const isObjetDetail = path.includes('objet')
   const isUpdate = path.includes('update')
+  const isChatting = path.includes('chatting')
+  const isCalling = path.includes('call')
 
-  const [callingPeople, setCallingPeople] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const [objetData, setObjetData] = useState<Objet>()
+  const myUserId = useUserStore((state) => state.userId)
 
-  const fetchObjetData = async () => {
-    try {
-      const response = await fetch(`${APIs.objet}/${id}`, {
-        method: 'GET',
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+  const [isDeleteClick, setisDeleteClick] = useState(false)
+
+  const { data: objetData, isLoading } = useQuery(
+    ['objetData', id],
+    () => fetchData(id),
+    {
+      retry: 1,
+      onError: () => {
+        toast.error('해당 오브제를 찾을 수 없습니다 😅')
+        router.push(`${URL.lounge}`)
+      },
+    }
+  )
+
+  const { data: callingPeople } = useQuery(
+    ['callingPeople', id],
+    () => fetchCall(id),
+    {
+      retry: 1,
+      onError: () => {
+        console.error('Failed to fetch calling people')
+      },
+    }
+  )
+
+  const deleteMutation = useMutation(
+    async () => {
+      setisDeleteClick(true)
+      await fetch(`${APIs.objet}/${id}`, {
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch objet data')
-      }
-
-      const data = await response.json()
-      setObjetData(data.data)
-    } catch {
-      toast.error('해당 오브제를 찾을 수 없습니다 😅')
-      router.push('/lounges')
-    } finally {
-      setIsLoading(false)
+    },
+    {
+      onSuccess: () => {
+        toast.success('오브제 삭제 성공 🪐')
+        router.push(`${URL.lounge}/${objetData.lounge_id}`)
+      },
+      onError: () => {
+        toast.error('오브제 삭제 실패 😭')
+      },
+      onSettled: () => {
+        setIsDeleteModalVisible(false)
+        setisDeleteClick(false)
+      },
     }
+  )
+
+  const handleDeleteObjet = () => {
+    deleteMutation.mutate()
   }
-
-  const fetchCallingPeople = async () => {
-    try {
-      const response = await fetch(`${APIs.objet}/${id}/call/participants`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-        credentials: 'include',
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch calling people')
-      }
-
-      const data = await response.json()
-      setCallingPeople(data.data.calling_user_num)
-    } catch {
-      toast.error('오브제 통화 인원 수 가져오기 실패')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchObjetData()
-    fetchCallingPeople()
-  }, [])
 
   if (isLoading) {
     return null
@@ -102,32 +138,53 @@ export default function ObjetLayout({ params, children }: LayoutProps) {
 
   return (
     <Layout>
-      <div className={styles.container}>
-        <div className={styles.topContainer}>
-          <div className={styles.leftContainer}>
-            <div className={styles.callTitle}>{objetData?.name}</div>
-            <div className={styles.createdInfo}>
-              <div className={styles.objetMaker}>
-                <span className={styles.name}>{objetData?.owner.nickname}</span>
+      <>
+        {isDeleteModalVisible && (
+          <>
+            <div className={modalStyles.modalBackdrop} />
+            <DeleteObjetModal
+              isClick={isDeleteClick}
+              isOpen={isDeleteModalVisible}
+              onClose={() => setIsDeleteModalVisible(false)}
+              handleDelete={handleDeleteObjet}
+            />
+          </>
+        )}
+
+        <div className={styles.container}>
+          <div className={styles.topContainer}>
+            <div className={styles.leftContainer}>
+              <div className={styles.callTitle}>{objetData?.name}</div>
+              <div className={styles.createdInfo}>
+                <div className={styles.objetMaker}>
+                  <span className={styles.name}>
+                    {objetData?.owner.nickname}
+                  </span>
+                </div>
+                <span>|</span>
+                <span className={styles.objetDate}>
+                  {extractYearMonthDate(objetData?.created_at || '')}
+                </span>
               </div>
-              <span>|</span>
-              <span className={styles.objetDate}>
-                {extractYearMonthDate(objetData?.created_at || '')}
-              </span>
+            </div>
+            <div className={styles.rightContainer}>
+              <SideDropMenu
+                id={parseInt(id)}
+                ownerId={objetData?.owner.user_id}
+                isChatting={isChatting}
+                isCalling={isCalling}
+                isObjetDetail={isObjetDetail}
+                myUserId={myUserId}
+                isDeleteModalVisible={isDeleteModalVisible}
+                setIsDeleteModalVisible={setIsDeleteModalVisible}
+              />
             </div>
           </div>
-          <div className={styles.rightContainer}>
-            <SideDropMenu
-              id={id}
-              ownerId={objetData?.owner.user_id}
-              loungeId={objetData?.lounge_id}
-            />
-          </div>
+          <ObjetContext.Provider value={{ objetData, callingPeople }}>
+            {children}
+          </ObjetContext.Provider>
         </div>
-        <ObjetContext.Provider value={{ objetData, callingPeople }}>
-          {children}
-        </ObjetContext.Provider>
-      </div>
+      </>
     </Layout>
   )
 }
