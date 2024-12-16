@@ -1,9 +1,8 @@
 :root {
   --background: #000000;
-  --foreground: #17171B;
+  --foreground: #17171b;
   --text: #fff;
 }
-
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -54,7 +53,6 @@ a {
   text-decoration: none;
 }
 
-
 button {
   background: inherit;
   border: none;
@@ -63,6 +61,10 @@ button {
   padding: 0;
   overflow: visible;
   cursor: pointer;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 /* 스크롤바 스타일 */
