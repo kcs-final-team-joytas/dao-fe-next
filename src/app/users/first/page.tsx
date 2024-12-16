@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ProfileImageUploader from '../components/ProfileImageUploader'
 import { checkNicknameDuplicate } from '@utils/validation'
@@ -10,6 +10,24 @@ import { toast } from 'react-toastify'
 import { APIs, URL } from '@/static'
 import { uploadImage } from '@utils/imageUtil'
 import styles from './page.module.css'
+import { useQuery } from 'react-query'
+
+const fetchUserProfile = async () => {
+  const response = await fetch(APIs.profile, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch user profile')
+  }
+
+  const data = await response.json()
+  return data
+}
 
 export default function FirstProfile() {
   const [profile, setProfile] = useState<File | null>(null)
@@ -18,42 +36,28 @@ export default function FirstProfile() {
   const [imageError, setImageError] = useState('')
   const [nicknameError, setNicknameError] = useState('')
   const [isClick, setIsClick] = useState(false)
-  const [isProfileLoading, setIsProfileLoading] = useState(true)
 
   const updateProfileImage = useUserStore((state) => state.updateProfileImage)
   const updateNickname = useUserStore((state) => state.updateNickname)
 
   const router = useRouter()
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(APIs.profile, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-          credentials: 'include',
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user profile')
-        }
-
-        const data = await response.json()
-        if (data.data.user_status !== 'ACTIVE_FIRST_LOGIN') {
+  const { isLoading: isProfileLoading } = useQuery(
+    'userProfile',
+    fetchUserProfile,
+    {
+      retry: 1,
+      onSuccess: (data) => {
+        if (data.user_status !== 'ACTIVE_FIRST_LOGIN') {
           toast.info('이미 프로필을 설정했습니다 😊')
           router.back()
         }
-      } catch (error) {
+      },
+      onError: (error) => {
         console.error('유저 정보 불러오기 실패: ', error)
-      } finally {
-        setIsProfileLoading(false)
-      }
+      },
     }
-
-    fetchUserProfile()
-  }, [router])
+  )
 
   const validateNickname = async (nickname: string): Promise<boolean> => {
     const lengthValid = nickname.length >= 2 && nickname.length <= 10
