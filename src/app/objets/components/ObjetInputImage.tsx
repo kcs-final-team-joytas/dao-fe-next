@@ -10,6 +10,7 @@ interface ObjetInputImageProps {
   setImageValid: React.Dispatch<React.SetStateAction<boolean>>
   setImageErrorMessage: React.Dispatch<React.SetStateAction<string>>
   setIsImageChanged: React.Dispatch<React.SetStateAction<boolean>>
+  imageErrorMessage: string
 }
 
 export default function ObjetInputImage({
@@ -19,6 +20,7 @@ export default function ObjetInputImage({
   setImageValid,
   setImageErrorMessage,
   setIsImageChanged,
+  imageErrorMessage,
 }: ObjetInputImageProps) {
   const handleUploadClick = () => {
     const fileInput = document.getElementById('objetImage')
@@ -88,6 +90,7 @@ export default function ObjetInputImage({
           />
         </>
       }
+      helperText={imageErrorMessage}
     />
   )
 }

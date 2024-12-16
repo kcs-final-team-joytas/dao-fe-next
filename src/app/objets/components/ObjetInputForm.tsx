@@ -296,6 +296,7 @@ export default function ObjetInfoForm({
         setImageValid={setImageValid}
         setImageErrorMessage={setImageErrorMessage}
         setIsImageChanged={setIsImageChanged}
+        imageErrorMessage={imageErrorMessage}
       />
 
       <ObjetInputButton

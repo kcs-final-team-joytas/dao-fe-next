@@ -209,7 +209,7 @@ export default function Page() {
       <div className={styles.chatInputBox}>
         <input
           className={styles.chatInput}
-          placeholder='Enter your message'
+          placeholder='채팅을 입력해주세요.'
           value={messageInput}
           onKeyDown={handleKeyDown}
           onChange={(e) => setMessageInput(e.target.value)}
