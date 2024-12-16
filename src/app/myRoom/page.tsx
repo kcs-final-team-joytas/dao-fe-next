@@ -14,7 +14,6 @@ import {
   roomConfigs,
 } from '@components/models/MyRoomModels'
 import { APIs, URL } from '@/static'
-import LoadingLottie from '@components/lotties/LoadingLottie'
 import useUserStore from '@store/userStore'
 import { OrbitControls } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
@@ -22,12 +21,18 @@ import styles from './page.module.css'
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import dynamic from 'next/dynamic'
 
 interface MyRoomResponse {
   my_room_id: number
   type: string
   my_room_name: string
 }
+
+const LoadingLottie = dynamic(
+  () => import('@components/lotties/LoadingLottie'),
+  { ssr: false }
+)
 
 const fetchMyRoomInfo = async (userId: number, router: AppRouterInstance) => {
   const response = await fetch(`${APIs.myRoom}?user_id=${userId}`, {
