@@ -63,7 +63,6 @@ const fetchLounges = async () => {
   return [{ lounge_id: 0, name: '전체', type: '전체' }, ...data.data]
 }
 
-
 export default function MyRoomObjet() {
   const isMobile = useMediaQuery('only screen and (max-width : 425px)')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -128,17 +127,24 @@ export default function MyRoomObjet() {
           <div className={styles.topContainer}>
             <div className={styles.title}>{selectedLounge.name}</div>
             <div className={styles.iconContainer}>
-              <Image className={styles.icon}
+              <Image
+                className={styles.icon}
                 src={moreImg}
                 onClick={() => {
                   setIsModalOpen(true)
                 }}
-               alt="more"/>
+                alt='more'
+              />
             </div>
           </div>
-          <div className={styles.subtitle}>나에게 전달된 오브제를 확인해보세요!</div>
+          <div className={styles.subtitle}>
+            나에게 전달된 오브제를 확인해보세요!
+          </div>
           {!isObjetsLoading && objets ? (
-            <div className={styles.objets} style={{ alignItems: `${isMobile && 'flex-start'}` }}>
+            <div
+              className={styles.objets}
+              style={{ alignItems: `${isMobile && 'flex-start'}` }}
+            >
               {isMobile ? (
                 <MobileLoungeObjets
                   objets={objets || []}

@@ -17,7 +17,7 @@
 .globalSubTitle {
   margin-top: 10px;
   font-size: 15px;
-  font-weight: semi-bold;
+  font-weight: 600;
 }
 
 .container {
@@ -31,15 +31,22 @@
 }
 
 .inputTitle {
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   color: white;
 }
 
+.redText {
+  font-size: 10px;
+  color: #d41313;
+  text-align: start;
+  margin-left: 4px;
+}
+
 .inputContainer {
   display: flex;
-  width: 350px;
+  width: 320px;
   align-items: flex-start;
   justify-content: space-between;
 }
@@ -47,7 +54,7 @@
 .input {
   width: 200px;
   background-color: transparent;
-  height: 40px;
+  height: 30px;
   border-radius: 10px;
   color: white;
   padding: 5px 10px;
@@ -56,11 +63,11 @@
 }
 
 .input::placeholder {
-  font-size: 15px;
+  font-size: 10px;
 }
 
 .input:read-only {
-  font-size: 15px;
+  font-size: 10px;
   color: gray;
 }
 
@@ -72,13 +79,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.redText {
-  height: 20px;
-  margin-top: 10px;
-  color: #d41313;
-  font-size: 13px;
 }
 
 .loungeModel {
