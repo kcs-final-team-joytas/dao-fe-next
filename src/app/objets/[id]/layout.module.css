@@ -1,15 +1,19 @@
 .container {
   width: 100%;
-  height: calc(100% - 50px);
-  padding: 32px;
+  height: 100%;
+  padding: 0 16px;
   color: white;
 }
 
 .topContainer {
   display: flex;
+  flex-direction: row;
+  height: fit-content;
+  padding-top: 30px;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
 }
 
 .leftContainer {
@@ -18,8 +22,10 @@
 
 .rightContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  width: fit-content;
+  gap: 10px;
 }
 
 .callTitle {

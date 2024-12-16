@@ -5,10 +5,12 @@ import styles from './page.module.css'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import ObjetInfoForm from '../../components/ObjetInputForm'
-import { APIs } from '@/static'
+import { APIs, URL } from '@/static'
 import { useEffect, useState } from 'react'
 import RenderObjet from '../../components/RenderObjet'
 import { SharedMembersProps } from '@/types/memberType'
+import { useQuery } from 'react-query'
+import { useRouter } from 'next/navigation'
 
 interface ObjetInfo {
   lounge_id: number
@@ -19,60 +21,64 @@ interface ObjetInfo {
   objet_type: string
 }
 
+const fetchObjetInfo = async (objetId: string) => {
+  const response = await fetch(`${APIs.objet}/${objetId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    credentials: 'include',
+  })
+  if (!response.ok) throw new Error('Failed to fetch objet data')
+
+  return response.json()
+}
+
+const fetchSharers = async (objetId: string) => {
+  const response = await fetch(`${APIs.objet}/${objetId}/sharers`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+    credentials: 'include',
+  })
+  if (!response.ok) throw new Error('Failed to fetch sharers data')
+
+  return response.json()
+}
+
 export default function ObjetForm({ params }: { params: { id: string } }) {
   const objetId = params.id
   const [selectedType, setSelectedType] = useState<string>('')
-  const [objetInfo, setObjetInfo] = useState<ObjetInfo>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const isSelected = selectedType !== ''
+  const router = useRouter()
 
-  useEffect(() => {
-    if (objetId) {
-      const fetchObjetInfo = async () => {
-        setIsLoading(true)
-        try {
-          const objetResponse = await fetch(`${APIs.objet}/${objetId}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            },
-            credentials: 'include',
-          })
-          if (!objetResponse.ok) throw new Error('Failed to fetch objet data')
+  const { data: objetInfo, isLoading } = useQuery(
+    ['objetInfo', objetId],
+    async () => {
+      const [objetResponse, sharersResponse] = await Promise.all([
+        fetchObjetInfo(objetId),
+        fetchSharers(objetId),
+      ])
 
-          const sharersResponse = await fetch(
-            `${APIs.objet}/${objetId}/sharers`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-              },
-              credentials: 'include',
-            }
-          )
-          if (!sharersResponse.ok)
-            throw new Error('Failed to fetch sharers data')
-
-          const objetData = await objetResponse.json()
-          const sharersData = await sharersResponse.json()
-
-          setObjetInfo({
-            lounge_id: objetData.data.lounge_id,
-            name: objetData.data.name,
-            description: objetData.data.description,
-            sharers: sharersData.data.sharers,
-            objet_image: objetData.data.objet_image,
-            objet_type: objetData.data.objet_type,
-          })
-          setSelectedType(objetData.data.objet_type)
-        } catch {
-          toast.error('멤버 목록 불러오기 실패')
-        } finally {
-          setIsLoading(false)
-        }
+      return {
+        lounge_id: objetResponse.data.lounge_id,
+        name: objetResponse.data.name,
+        description: objetResponse.data.description,
+        sharers: sharersResponse.data.sharers,
+        objet_image: objetResponse.data.objet_image,
+        objet_type: objetResponse.data.objet_type,
       }
-
-      fetchObjetInfo()
+    },
+    {
+      retry: 1,
+      onSuccess: (data) => {
+        setSelectedType(data?.objet_type || '')
+      },
+      onError: () => {
+        toast.error('해당 오브제를 찾을 수 없습니다 😅')
+        router.push(`${URL.lounge}`)
+      },
     }
-  }, [objetId])
+  )
 
   return (
     <>

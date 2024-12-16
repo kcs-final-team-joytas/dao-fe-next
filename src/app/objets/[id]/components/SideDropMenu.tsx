@@ -1,12 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import useUserStore from '@store/userStore'
-import { usePathname } from 'next/navigation'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import menu from '@images/menu.webp'
 import { ObjetDrop } from './ObjetDrop'
-import { APIs, URL } from '@/static'
+import { URL } from '@/static'
 import styles from './SideDropMenu.module.css'
 import leaveImage from '@images/leave.webp'
 import Link from 'next/link'
@@ -14,22 +12,26 @@ import Link from 'next/link'
 export default function SideDropMenu({
   id,
   ownerId,
-  loungeId,
+  isChatting,
+  isCalling,
+  isObjetDetail,
+  myUserId,
+  isDeleteModalVisible,
+  setIsDeleteModalVisible,
 }: {
   id: number
-  ownerId: number | undefined
-  loungeId: number | undefined
+  ownerId: string
+  isChatting: boolean
+  isCalling: boolean
+  isObjetDetail: boolean
+  myUserId: number
+  isDeleteModalVisible: boolean
+  setIsDeleteModalVisible: (bool: boolean) => void
 }) {
-  const path = usePathname()
   const imageRef = useRef<HTMLImageElement>(null)
-  const isObjetDetail = path?.includes('objet')
-  const isChatting = path?.includes('chatting')
-  const isCalling = path?.includes('call')
-
-  const myUserId = useUserStore((state) => state.userId)
 
   const isBasic =
-    isObjetDetail && !isChatting && !isCalling && myUserId === ownerId
+    isObjetDetail && !isChatting && !isCalling && myUserId === parseInt(ownerId)
   const isCommunicate = isChatting || isCalling
 
   const [isDropVisible, setIsDropVisible] = useState(false)
@@ -50,18 +52,16 @@ export default function SideDropMenu({
           className={styles.menuIcon}
           src={menu}
           alt='menu'
-          onClick={(event) => {
-            setIsDropVisible((prev) => !prev)
-            event.stopPropagation()
-          }}
+          onClick={() => setIsDropVisible((prev) => !prev)}
         />
         {isDropVisible && (
           <ObjetDrop
             id={id}
-            loungeId={loungeId}
             isDropVisible={isDropVisible}
             setIsDropVisible={setIsDropVisible}
             imageRef={imageRef}
+            isDeleteModalVisible={isDeleteModalVisible}
+            setIsDeleteModalVisible={setIsDeleteModalVisible}
           />
         )}
       </div>
