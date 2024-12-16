@@ -6,20 +6,10 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import ObjetInfoForm from '../../components/ObjetInputForm'
 import { APIs, URL } from '@/static'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import RenderObjet from '../../components/RenderObjet'
-import { SharedMembersProps } from '@/types/memberType'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/navigation'
-
-interface ObjetInfo {
-  lounge_id: number
-  name: string
-  description: string
-  sharers: SharedMembersProps[]
-  objet_image: string
-  objet_type: string
-}
 
 const fetchObjetInfo = async (objetId: string) => {
   const response = await fetch(`${APIs.objet}/${objetId}`, {

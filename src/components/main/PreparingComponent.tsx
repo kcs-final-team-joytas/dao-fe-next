@@ -16,11 +16,9 @@ export default function PreparingComponent() {
 
   useEffect(() => {
     const container = preparingRef.current
-    let scrollAmount = 0
 
     const scrollInterval = setInterval(() => {
       if (container) {
-        scrollAmount += 1
         container.scrollLeft += 1
 
         if (
